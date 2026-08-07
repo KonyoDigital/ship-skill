@@ -258,8 +258,19 @@ Everything the back-pass found gets fixed and **proven again**. A fix is done wh
 failure no longer happens and you have said so with evidence — not when it was applied. If
 a fix touches what an earlier round proved, that proof is stale. Redo it.
 
-Set a ceiling **before** looping — three passes suits most work — then stop for one of
-exactly three reasons, and **say which**:
+**Take the ceiling from the person, not from thin air.** If they gave you a limit —
+passes, time, budget — that is the ceiling. **If they did not, do not invent one**; stop
+on no-progress instead. A made-up "three passes" is a number nobody chose, and it will
+cut off a run that needed four exactly as confidently as it bounds one that needed none.
+
+⚠ **And do not manufacture a loop at all when no new feedback can change the next
+action.** Looping is for work where each pass *learns* something — a check that can go
+red to green, a reviewer who can object. If nothing between passes could alter what you
+do next, that is one-shot work: do it once, well, seal it. Iterating without new
+information produces the same answer at rising cost and looks like diligence.
+
+Then stop for one of
+exactly four reasons, and **say which**:
 
 | | |
 |---|---|
@@ -487,6 +498,19 @@ Skip what does not apply, but **say you skipped it and why.** Silence reads as "
 | Reachability | Is every new thing actually *reached* by something? Dead code described as a feature is worse than a missing feature — nobody looks again. |
 | Version + record | Version bumped, and change recorded where the project already records changes? |
 | Rollback | Is the reverse path known? |
+
+### ⚠ Never tune against the check that will judge you
+
+If you adjust the work until a particular check passes, **that check has stopped
+measuring anything** — it now measures how hard you tuned. Same failure as a test written
+from the implementation, one level up, and invisible from the inside because everything
+is green.
+
+So when optimising against any metric — a prompt, a threshold, a ranking, a piece of copy
+— **keep an acceptance gate you did not tune against**: held-back examples, a second
+reviewer, a case you never looked at while working. If you only have one check and you
+tuned against it, **say so in the seal**: *"passes the check I tuned against; not
+independently verified."* That sentence is worth more than the green.
 
 ### ⚠ The tests are also a suspect, not only the instrument
 

@@ -26,6 +26,13 @@ LIMIT = 1024
 def check(zf: zipfile.ZipFile) -> list[str]:
     fails, names = [], zf.namelist()
     md = zf.read("ship-skill/SKILL.md").decode()
+    # ⚠ WHITESPACE-NORMALISED COPY, for any check on a phrase longer than a word.
+    # This file is hard-wrapped at ~88 columns, so a phrase can be split by a newline
+    # and `"a b c" in md` fails on text that is present and correct. That has now cost
+    # three false failures in one session — "PASSED, CEILING or STALLED", "SOLO or
+    # MULTI (Step 4b)", and "not independently verified". A gate that fails correct
+    # work is worse than no gate: it teaches you to ignore it.
+    flat = " ".join(md.split())
 
     def want(cond, label):
         print(("  ok   · " if cond else "  FAIL · ") + label)
@@ -92,12 +99,12 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "…and the undo step ships: without a previous copy a WRONG scar is "
          "permanent, which is a strange property for a file whose whole job is "
          "recording that we got something wrong")
-    want("cannot be narrowed" in md and "surprised the verdict was SHIP" in md,
+    want("cannot be narrowed" in flat and "surprised the verdict was SHIP" in flat,
          "the scope-boundary rule ships — Rule 0 forbids SHIP-with-caveats while the "
          "seal requires 'what was NOT checked', and without a pinned scope those "
          "contradict; without the no-narrowing clause 'out of scope' launders a known "
          "defect into a SHIP")
-    want("low-stakes change" in md and "Small is not the same as cheap to get wrong" in md,
+    want("low-stakes change" in flat and "Small is not the same as cheap to get wrong" in flat,
          "Step 1's short path requires small AND low-stakes — a one-line production "
          "config change is small and expensive, and an earlier compression dropped the "
          "stakes half, licensing one round on exactly that")
@@ -122,7 +129,7 @@ def check(zf: zipfile.ZipFile) -> list[str]:
     want("free to **name** and never free to **act on**" in md,
          "widening scope is free to NAME, not to ACT on — otherwise it licenses exactly "
          "the changes-nobody-asked-for that Step 2 forbids")
-    want("also a suspect, not only the instrument" in md and "count the artifacts" in md,
+    want("also a suspect, not only the instrument" in flat and "count the artifacts" in flat,
          "tests are treated as a SUSPECT artifact, not only the instrument of proof — "
          "the live trial's difficulty was two tests asserting the bug as correct, where "
          "a green suite is evidence pointing the wrong way")
@@ -130,10 +137,10 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "the embarrassment lens asks what, IF ANYTHING — without it the lens obliges "
          "an objection into existence, contradicting the rule four lines below it "
          "forbidding a manufactured problem")
-    want("If you cannot ask" in md and "narrower" in md,
+    want("If you cannot ask" in flat and "narrower" in flat,
          "Step 1 has a no-channel fallback — a subagent or scheduled run cannot ask, "
          "and a question answered by assumption looks identical to one never asked")
-    want("is the problem in the work, or in the proof" in md,
+    want("is the problem in the work, or in the proof" in flat,
          "DRAFT vs BLOCKED is PINNED — work wrong is BLOCKED, proof short is DRAFT, "
          "both is BLOCKED; two careful readers reached different words from identical "
          "facts without it")
@@ -148,6 +155,17 @@ def check(zf: zipfile.ZipFile) -> list[str]:
     want("Once it has entries" in scars,
          "SCARS.md carries the SAME hedge as SKILL.md — 'the only file written by "
          "experience' was fixed in one place and left unhedged in the other")
+    want("do not invent one" in md,
+         "the ceiling comes from the PERSON, not from thin air — a made-up 'three "
+         "passes' cuts off a run that needed four as confidently as it bounds one that "
+         "needed none (loop-library, alirezarezvani/claude-skills, MIT)")
+    want("manufacture a loop" in md,
+         "it refuses to LOOP at all when no new feedback can change the next action — "
+         "iterating without new information produces the same answer at rising cost and "
+         "looks like diligence")
+    want("tune against the check" in flat and "not independently verified" in flat,
+         "tuning against the check that judges you is named — the check then measures "
+         "how hard you tuned, and it is invisible from inside because everything is green")
     want("never that it was saved" in md,
          "the seal says scar durability is UNVERIFIED and never claims it was saved — "
          "reading a file back proves the write, never that the workspace survives")
@@ -157,6 +175,19 @@ def check(zf: zipfile.ZipFile) -> list[str]:
     # it a defence" sat above THREE bullets, a compression casualty that read as correct
     # to two reviewers.
     _w = {"two": 2, "three": 3, "four": 4, "five": 5, "six": 6}
+
+    # ⚠ SAME CLASS, DIFFERENT SHAPE. "exactly three reasons" sat above a FOUR-row
+    # table the moment UNFIXABLE HERE was added — a promise-vs-count mismatch that no
+    # wording check finds, exactly like "the last two" over three bullets. Counting
+    # table rows as well as bullets is what makes this catch the class rather than the
+    # one instance that happened to be noticed.
+    for _m in re.finditer(r"exactly (two|three|four|five|six) reasons", md):
+        _seg = md[_m.end():_m.end() + 1600]
+        _rows = len(re.findall(r"^\| \*\*[A-Z]", _seg, re.M))
+        if _rows and _rows != _w[_m.group(1)]:
+            _bad_rows = True
+            want(False, f"'exactly {_m.group(1)} reasons' is followed by {_rows} table "
+                        f"rows — a promise that does not match its own count")
     _bad = []
     for _m in re.finditer(r"[Tt]he last (two|three|four|five|six)[^.\n]*:", md):
         _after = md[_m.end():_m.end() + 2000]
@@ -167,7 +198,7 @@ def check(zf: zipfile.ZipFile) -> list[str]:
     want(not _bad,
          f"every 'the last N...:' promise is followed by exactly N bullets "
          f"(mismatched: {_bad or 'none'})")
-    want("STALLED" in md and "Silence is not evidence" in md,
+    want("STALLED" in flat and "Silence is not evidence" in flat,
          "the stopping rule ships, including the silent-check trap — a check that "
          "prints nothing on failure looks identical whether you are converging or "
          "stuck, so a stall cannot be read off it")
@@ -229,6 +260,12 @@ def self_test() -> int:
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("UNFIXABLE HERE", "x")}),
         ("scar triage is removed",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("At most ONE scar per run", "x")}),
+        ("the ceiling goes back to an invented number",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("do not invent one", "pick three")}),
+        ("the overfitting rule is dropped",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("tune against the check", "x")}),
+        ("a verdict count stops matching its table",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("exactly four reasons", "exactly three reasons")}),
         ("the scope rule loses its no-narrowing clause",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("cannot be narrowed", "may be adjusted")}),
         ("Step 1's short path drops the stakes half again",

@@ -130,4 +130,13 @@ This skill is the judgement. That is the machine.
 
 ---
 
+## Credits
+
+Three rules in Step 5 came from the **loop-library** in
+[alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT):
+take the ceiling from the user rather than inventing one, don't manufacture a loop when
+no new feedback can change the next action, and keep an acceptance gate you did not tune
+against. The last is the sharpest — a check you optimised against measures how hard you
+tuned, and it is invisible from the inside because everything is green.
+
 MIT. Built with [Claude Code](https://claude.com/claude-code).
