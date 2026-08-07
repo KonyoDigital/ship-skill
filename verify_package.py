@@ -299,6 +299,22 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          f"the public package ships NO real scars ({[b[:44] for b in _real] or 'none'}) — "
          f"only the labelled EXAMPLE. The first user's scar must be their own, and the "
          f"file says 'none yet', which has to be true")
+    want("The ordinary happy path is SHIP" in flat,
+         "the happy path is stated — errors found, all fixed, fixes proven, boundary "
+         "stated is SHIP. Without it the file specifies every route INTO DRAFT and "
+         "BLOCKED and almost none into the verdict most runs should reach")
+    want("also a false report" in flat and "never to feel safer" in flat,
+         "the DRAFT bias is named — the file warns at length against a wrong SHIP and "
+         "the asymmetry is itself a thumb on the scale; a defensive DRAFT on clean work "
+         "is also a false report")
+    want('"A question I now always ask" is a real guard' in flat,
+         "GUARD's usable escape hatch is FIRST, not third in a parenthetical — an agent "
+         "auditing someone else's repo cannot add a test to it, and editing this skill "
+         "to install a guard is itself a drive-by, so it is often the only option")
+    want("+ EXCEPTION" in md and md.count("+ EXCEPTION") >= 4,
+         f"the repetition convention ships and is USED ({md.count('+ EXCEPTION')} "
+         f"passages) — the file had no way to signal 'this repeats and adds an exception' "
+         f"versus 'this is emphasis', and two readers skimmed exactly those paragraphs")
     want("never that it was saved" in md,
          "the seal says scar durability is UNVERIFIED and never claims it was saved — "
          "reading a file back proves the write, never that the workspace survives")
@@ -431,6 +447,12 @@ def self_test() -> int:
          lambda f: {**f, "ship-skill/SCARS.md":
                     (f["ship-skill/SCARS.md"].decode() +
                      "\nWHAT BROKE   a real failure from somebody else's work\n").encode()}),
+        ("the happy path is dropped",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("The ordinary happy path is SHIP", "x")}),
+        ("the DRAFT bias goes unnamed again",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("also a false report", "x")}),
+        ("the exception convention is unused",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("+ EXCEPTION", "")}),
         ("the scope rule loses its no-narrowing clause",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("cannot be narrowed", "may be adjusted")}),
         ("Step 1's short path drops the stakes half again",

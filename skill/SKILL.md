@@ -51,16 +51,31 @@ rest of the file is the reasoning behind them and the cases they came from.
 
 Everything below is *why*, and the cases that produced each one.
 
+**Reading this file.** A `⚠` marks something that has actually bitten. **`+ EXCEPTION`
+marks a passage that repeats a rule you have already read AND changes it** — a carve-out,
+a boundary, a case where the rule inverts. Those are the only repetitions you cannot
+skim; anything else restating a pin is emphasis and can be skipped on a second pass. Two
+readers reported skimming exactly these paragraphs and missing the sentence they needed,
+because nothing distinguished the two kinds.
+
 ---
 
 ## Rule 0 — one verdict, and it fails closed
 
-**Every run ends with exactly one of these three words.** It fails closed: anything short of
+⚠ **Failing closed is a tie-break, not a thumb on the scale.** Everything below warns at
+length against a wrong SHIP, and that asymmetry is itself a bias: **a defensive DRAFT on
+clean work is also a false report.** It costs the reader a decision they should not have
+had to make, and it costs you the one thing the verdict is for — being believed when you
+say SHIP. Downgrade when a rule says to, never to feel safer.
+
+**Every run ends with exactly one of these three words.** It fails closed *when genuinely
+tied*: anything short of
 proven-good reports as DRAFT or BLOCKED, never as SHIP-with-caveats.
 
 | Verdict | Meaning |
 |---|---|
 | **SHIP** | Every applicable check passed *with evidence*. Safe to send, merge, publish, submit. |
+| | **The ordinary happy path is SHIP:** errors found, all of them fixed, the fixes proven, the boundary stated. Finding and fixing problems is not a reason to downgrade — it is the work. |
 | **DRAFT** | The work is sound but the bar was not fully met — usually missing proof, not missing quality. |
 | **BLOCKED** | A real problem was found. Say what it is and what would unblock it. |
 
@@ -117,7 +132,7 @@ worse than the original because it looks checked. Delete only if leaving it woul
 more than removing it, and say which you chose.
 
 
-**Scope decides whose job it is. Harm decides whether it can ship.** Those two rules
+**+ EXCEPTION — scope decides whose job it is; HARM decides whether it can ship.** Those two rules
 collide on an inherited defect that is also out of scope — that is the resolution. A
 boundary that lets you stay silent about something dangerous is not a scope rule, it is
 an excuse.
@@ -211,7 +226,7 @@ files nobody named. Fixing a *different* thing you noticed on the way is a drive
 Same defect, wider blast radius: **do it, and say you did.** Different defect: **name
 it, do not touch it.**
 
-⚠ **And permission bounds the sweep, not just scope.** Finding the same defect in six
+**+ EXCEPTION — permission bounds the sweep, not just scope.** Finding the same defect in six
 sibling documents does not authorise editing six documents — the ask covered one, and
 "it is the same bug" is a reason to *report* the other five, never a licence to edit
 them. **Sweep the class within what you were given; list the class beyond it.** A run
@@ -230,7 +245,7 @@ when two checks on the same thing disagree, do not assume the failing one is wro
 **That contradiction is the signal** — usually one of them was written against a truth that
 has since changed, and the other has been quietly holding the error in place.
 
-⚠ **The no-drive-by rule applies at EVERY granularity.** It reads as being about files
+**+ EXCEPTION — no-drive-by applies at EVERY granularity, and a COMPELLED deletion is not one.** It reads as being about files
 and diffs; the failure that actually happens is smaller. You have legitimate cause to
 touch one sentence, and while rewriting it you quietly drop a clause nobody asked about.
 Same rule, one level down — **file, function, paragraph, sentence, clause.** Cause to
@@ -406,7 +421,7 @@ exactly four reasons, and **say which**:
 | **STALLED** | The same failure **twice** running, unchanged. **Stop immediately.** |
 | **UNFIXABLE HERE** | You checked thoroughly and found defects you cannot fix — missing data, missing access, someone else's call. **No number of passes touches these.** Name each and who can act on it. |
 
-⚠ **UNFIXABLE HERE is neither a failure nor a stall.** The other three assume a check
+**+ EXCEPTION — UNFIXABLE HERE is neither a failure nor a stall.** The other three assume a check
 you can retry; this is work that is finished as far as you can take it, and looping on
 it just produces the same answer more expensively. It routes to **DRAFT** — the proof is
 incomplete, the work is sound — unless a defect makes the output actively misleading,
@@ -524,7 +539,11 @@ diary. The last three are what make it a defence, and they are the three people 
 - **RULE is an instruction, not a regret.** "Be more careful with numbers" is not a rule —
   nothing can follow it. "Trace every figure to the sentence it came from" is, because you
   can tell whether you did it.
-- **GUARD names where the rule now lives** — a step here, a checklist line, a test, or
+- **GUARD names where the rule now lives. "A question I now always ask" is a real guard,
+  and often the only one available** — if you are auditing someone else's repo you cannot
+  add a test to it, and editing this skill to install a guard is itself a drive-by. Do not
+  reach for `NONE` because you could not write code. Otherwise: a step here, a checklist
+  line, a test, or
   **a question you now always ask, which is a real guard and not a lesser one.** If you
   edited nothing, say that; an invented "added to Step 4" is false and reads as stronger,
   which is the exact incentive to avoid. If there genuinely isn't one, write
