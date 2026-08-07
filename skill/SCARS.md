@@ -162,13 +162,3 @@ grown.
 
 ---
 
-### max fleet on a volume arc (2026-08-07)
-
-```
-WHAT BROKE   quality:max + multi-version volume brief treated as thoroughness
-COST         multi-hour run, agent ceiling, high token spend, render gate CEILING; concurrent editors thrashing version stamps
-CAUGHT BY    orchestrator final report: LAW17 refuse hollow stamp fleet; LAW18 CEILING; lean native ships already advanced tip
-RULE         max is for SMALL high-stakes item lists only (prefer items[] of a few files). Multi-version product arcs = N lean/tiny fat packages per run, never one max fleet. Do not force past triage on volume briefs. One owner per tree at a time.
-GUARD        Host shipper item caps by quality when available; quality slash commands; workflow skill "Meter routing" section
-EVIDENCE     Real max run: multi-hour wall clock, agents over ceiling, shippable false on fat-version + render blockers while smaller ships landed real work
-```

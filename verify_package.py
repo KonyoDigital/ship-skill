@@ -289,6 +289,16 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "the stale note claiming tiny/lean/max 'control nothing here' is gone — a Meter "
          "routing section eleven lines below explains how to route them, and two passages "
          "giving opposite answers about the same three words is the stale-claim class")
+    # ⚠ THE PUBLIC PACKAGE MUST SHIP ZERO REAL SCARS. One leaked — a real failure from
+    # the author's own trading-console work, published in a stranger's clean start, while
+    # the file three lines above still said "none yet". A scar file that contradicts
+    # itself is bad; one that ships someone else's real failures is worse.
+    _real = [b for b in re.findall(r"^WHAT BROKE.*$", scars, re.M)
+             if "the summary quoted a figure that was not in the source" not in b]
+    want(not _real,
+         f"the public package ships NO real scars ({[b[:44] for b in _real] or 'none'}) — "
+         f"only the labelled EXAMPLE. The first user's scar must be their own, and the "
+         f"file says 'none yet', which has to be true")
     want("never that it was saved" in md,
          "the seal says scar durability is UNVERIFIED and never claims it was saved — "
          "reading a file back proves the write, never that the workspace survives")
@@ -417,6 +427,10 @@ def self_test() -> int:
          lambda f: {**f, "ship-skill/SKILL.md": md.replace(
              "| A **required** in-scope check you could not run |",
              "**Some prose.**\n\n| A **required** in-scope check you could not run |", 1)}),
+        ("a real scar leaks into the public package",
+         lambda f: {**f, "ship-skill/SCARS.md":
+                    (f["ship-skill/SCARS.md"].decode() +
+                     "\nWHAT BROKE   a real failure from somebody else's work\n").encode()}),
         ("the scope rule loses its no-narrowing clause",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("cannot be narrowed", "may be adjusted")}),
         ("Step 1's short path drops the stakes half again",
