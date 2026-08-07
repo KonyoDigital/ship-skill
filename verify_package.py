@@ -244,6 +244,34 @@ def check(zf: zipfile.ZipFile) -> list[str]:
     want("does these names exist" in low or "do these names exist" in low,
          "the Syntax check knows a parse is not a load — agent-army passed every gate "
          "for five commits and died at 'process is not defined' before spawning an agent")
+    want("whether the correction" in low and "survives without it" in low,
+         "the clause-level rule distinguishes a COMPELLED deletion from a tidy one — "
+         "'feels tidy' fails when the correction cannot be expressed with the clause "
+         "still there, which is structurally forced rather than optional")
+    want("permission bounds the sweep" in low,
+         "permission bounds the sweep, not just scope — the same defect in six sibling "
+         "files is a reason to REPORT five, never a licence to edit them")
+    want("do not invent it" in low and "looks checked" in low,
+         "when a fix needs data you do not have, the EDIT decision is covered and not "
+         "only the verdict: leave the wrong claim and flag it, because a substituted "
+         "plausible number is a new error that looks checked")
+
+    # ⚠ STRUCTURAL: three garbled passages shipped from splices in one round, and two
+    # independent readers hit all of them live. Markdown that does not close is not a
+    # style issue here — one of them detached the DRAFT/BLOCKED table from the paragraph
+    # that explains it, which both agents called the sharpest thing in the file.
+    # ⚠ COUNT PER PARAGRAPH, NOT PER LINE. Bold legitimately wraps across lines in a
+    # hard-wrapped file — a per-line count flags 40 correct paragraphs. The property is
+    # that each blank-line-separated block opens and closes its own markers; that is
+    # what catches a splice leaving a stray closer, which is the defect that shipped.
+    _bad = [b.split("\n")[0][:44] for b in re.split(r"\n\s*\n", md)
+            if b.count("**") % 2 and not b.lstrip().startswith("```")]
+    want(not _bad,
+         f"every paragraph opens and closes its own bold markers ({_bad[:3] or 'none'}) "
+         f"— three garbled passages shipped from splices in one round and two independent "
+         f"readers hit all three; one detached the DRAFT/BLOCKED table from the paragraph "
+         f"explaining it, which both called the sharpest thing in the file")
+
     want("never that it was saved" in md,
          "the seal says scar durability is UNVERIFIED and never claims it was saved — "
          "reading a file back proves the write, never that the workspace survives")
@@ -361,6 +389,10 @@ def self_test() -> int:
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("Read what a source says about itself", "x")}),
         ("the pins are demoted below Rule 0",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("## The pins", "## Appendix")}),
+        ("a splice leaves an unbalanced bold marker",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("**Compelled**", "**Compelled", 1)}),
+        ("permission stops bounding the sweep",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("permission bounds the sweep", "x")}),
         ("the scope rule loses its no-narrowing clause",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("cannot be narrowed", "may be adjusted")}),
         ("Step 1's short path drops the stakes half again",

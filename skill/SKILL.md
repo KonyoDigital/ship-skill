@@ -74,7 +74,7 @@ readers reached different words from identical facts:
 > *missing*: a check you could not run, evidence you could not gather, a decision that
 > is not yours to make.
 >
-⚠ **Two things arrive in the same sentence and split here:**
+> ⚠ **Two things arrive in the same sentence and split here:**
 >
 > | | |
 > |---|---|
@@ -106,6 +106,12 @@ stop.
 |---|---|
 | A known, unfixed defect **inside** declared scope | **DRAFT** — or BLOCKED if it is a real problem. Never SHIP. |
 | Something you **could not verify**, and which is **not required** for the claim you are making | SHIP is available. The boundary goes in "What was NOT checked". |
+**And when a fix needs data you do not have, do not invent it.** The verdict rules below
+cover what to *report*; this covers what to *write*. **Leave the wrong claim standing and
+flag it** — a substituted plausible number is a new error with your name on it, and it is
+worse than the original because it looks checked. Delete only if leaving it would mislead
+more than removing it, and say which you chose.
+
 | A **required** in-scope check you could not run | **DRAFT.** "Missing evidence is not a pass" governs — an unrunnable check does not become optional by being unrunnable. |
 | Something genuinely **outside** declared scope, **and not harmful** | SHIP is available. Name it so nobody assumes it was covered. |
 | Out of scope **and harmful if acted on** — misleading, unsafe, someone will decide from it | **BLOCKED**, whoever wrote it and whatever the scope said. |
@@ -204,6 +210,13 @@ files nobody named. Fixing a *different* thing you noticed on the way is a drive
 Same defect, wider blast radius: **do it, and say you did.** Different defect: **name
 it, do not touch it.**
 
+⚠ **And permission bounds the sweep, not just scope.** Finding the same defect in six
+sibling documents does not authorise editing six documents — the ask covered one, and
+"it is the same bug" is a reason to *report* the other five, never a licence to edit
+them. **Sweep the class within what you were given; list the class beyond it.** A run
+that widens its own blast radius on the strength of being right is the drive-by problem
+wearing a better argument.
+
 **Finish the sweep you print.** If you list places to check, check *all* of them. A
 half-worked list is worse than no list because it looks like diligence. (Real failure: a
 sweep flagged fourteen files, eight got checked, and one of the six skipped was broken in
@@ -222,7 +235,18 @@ touch one sentence, and while rewriting it you quietly drop a clause nobody aske
 Same rule, one level down — **file, function, paragraph, sentence, clause.** Cause to
 touch the container is not cause to change what is inside it.
 
-The tell is that the deletion feels *tidy* rather than *requested*. **Re-read your own
+**Two kinds of deletion, and only one is a drive-by:**
+
+- **Tidy** — you removed it because it looked better gone. That is a drive-by at any
+  size. Put it back.
+- **Compelled** — the correction cannot be expressed with it still there. Fixing a
+  sentence that wrongly says two periods matched forces out the clause *"as in Q1"*,
+  because that clause asserts the thing you are correcting. **That is part of the fix,
+  not a drive-by** — and it must be *named in the seal*, because a reader diffing the
+  text will see a deletion nobody asked for.
+
+The test is not how it feels, it is whether the correction **survives without it.** If
+you can make the fix and keep the clause, keeping it is mandatory. If you cannot, say so. **Re-read your own
 diff at the smallest unit you changed**, not at the level you were thinking in.
 
 **Kill the stale claim.** Changed how something behaves? Correct everything that
@@ -251,10 +275,10 @@ they were separate passes.
 3. **Blast radius** — what does this affect that nobody listed? What breaks downstream?
    How would someone undo it?
 4. **The embarrassment test** — what, **if anything**, is the first thing the most
-   demanding reader would object to? Name it; fixing is Step 5. **If the honest answer is nothing, the block says
-   "nothing to report"** — which satisfies both rules; four labelled blocks is the shape,
-   and an empty one is a legitimate finding** — the rule below about not manufacturing a problem applies
-   hardest here, because this lens is the one that invites invention.
+   demanding reader would object to? Name it; fixing is Step 5. **If the honest answer is nothing, the block
+   says "nothing to report."** Four labelled blocks is the shape; an empty one is a
+   legitimate finding. The rule below about not manufacturing a problem applies hardest
+   here, because this is the lens that invites invention.
 
 > **You are being asked for analysis, not agreement** — and equally, do **not** manufacture
 > a problem to look useful. State the strongest case that this work is wrong, then the
@@ -310,7 +334,7 @@ mandatory.)
 | Rung | What it removes |
 |---|---|
 | **1. A different model family** | Contamination, and blind spots that sit in different places. The strongest MULTI. Name the model. |
-| **2. A fresh subagent / agent task** | Most of the contamination — no manual step where this exists (Claude Code, Cowork, Agent SDK). Two caveats: *you* write its prompt, so contamination goes down by discipline rather than being removed by the mechanism; and a subagent may run a different, often smaller model than yours, so name what it was if you can find out. |
+| **2. A fresh subagent / agent task** | Most of the contamination, where you can spawn one — **check, do not assume: a subagent usually cannot spawn a subagent, so this rung is often unavailable to the very run that needs it.** Two caveats even when it works: *you* write the prompt, so contamination drops by discipline rather than by mechanism; and it may run a different, often smaller model, so name what it was. |
 | **3. A new conversation**, pasted by hand | The same independence as rung 2 and the same caveat — you still write what it sees — but by hand. The fallback wherever there are no subagents. |
 | **4. Same conversation** | Nothing. This is SOLO — call it SOLO. |
 | **— Unavailable** | MULTI was right and **the environment cannot provide it.** Not a rung: a stated fact. |
@@ -392,8 +416,8 @@ the loop and get reported** — the limit is the discipline, and drifting past i
 how "a few more passes" becomes an afternoon. What differs is what happens next: CEILING
 means *another run is worth granting* — so a human decides. If they gave no limit in
 the first place, that decision is theirs too: you do not get to grant yourself more
-room on a budget nobody set
-**deliberately, with the reason stated**. STALLED means *more passes buy nothing* — change
+room on a budget nobody set. When a human does grant more, that is **a
+new limit, set deliberately, with the reason stated.** STALLED means *more passes buy nothing* — change
 the approach, the assumption under it, or what you are checking, then start a fresh count.
 
 **When stalled, do not raise the ceiling.** That is the instinct and it is wrong. Collapse
