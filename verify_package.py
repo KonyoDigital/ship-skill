@@ -38,6 +38,9 @@ def check(zf: zipfile.ZipFile) -> list[str]:
     # variant of this same class in one session — the fix is normalising the markup,
     # not rewording the file to suit the checker.
     flat = " ".join(re.sub(r"^\s*>\s?", "", md, flags=re.M).split())
+    # lowercased too: a sentence-initial capital is not a rule change, and three checks
+    # failed a compression that kept every rule because of exactly that.
+    low = flat.lower()
     seal_all = (md[md.index("## Step 6"):md.index("## Step 7")]
                 if "## Step 6" in md and "## Step 7" in md else "")
 
@@ -173,12 +176,12 @@ def check(zf: zipfile.ZipFile) -> list[str]:
     want("tune against the check" in flat and "not independently verified" in flat,
          "tuning against the check that judges you is named — the check then measures "
          "how hard you tuned, and it is invisible from inside because everything is green")
-    want("take DONE back" in flat and "Retracting the SHIP" in flat,
+    want("burndown chart with extra steps" in low and "retract" in low,
          "a sealed verdict is RETRACTABLE — a system that can only promote is a "
          "burndown chart with extra steps, and a one-way SHIP means 'nobody has "
          "objected yet' rather than 'this was proven' (Granite0x's test: can your "
          "system take done back?)")
-    want("persuasion, not enforcement" in flat,
+    want("persuasion, not enforcement" in low,
          "the skill states its own boundary up front — it cannot stop anyone claiming "
          "a check passed without running it, and a green report is a CLAIM not a proof")
     want("Stop` hook" in md or "Stop hook" in flat,
@@ -198,9 +201,11 @@ def check(zf: zipfile.ZipFile) -> list[str]:
     want("EVERY granularity" in flat and "sentence, clause" in flat,
          "no-drive-by applies below the file — the real failure is dropping a clause "
          "inside a sentence you had cause to touch")
-    want("prose is part of the source" in flat,
-         "a source's own prose counts — the load-bearing fact can sit in a comment every "
-         "automatic check skips, while all the totals reconcile perfectly")
+    want("read what a source says about itself" in low
+         and low.index("read what a source says about itself") > low.index("## step 3"),
+         "a source's own prose counts, AND it sits inside Step 3 — two independent trial "
+         "agents credited it with the hardest catch and both said it was buried in a "
+         "subsection about test suites, where nobody doing document work would look")
     want((HERE / "GATE_RULES.md").is_file(),
          "the carved gate rules ship — four scars landed in one territory and moved out "
          "of scattered comments into their own file, which is the graduation this skill "
@@ -331,17 +336,20 @@ def self_test() -> int:
         ("a verdict count stops matching its table",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("exactly four reasons", "exactly three reasons")}),
         ("retraction is dropped — the system can only promote",
-         lambda f: {**f, "ship-skill/SKILL.md": md.replace("take DONE back", "x")}),
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("burndown chart with extra steps", "x")}),
         ("the persuasion-not-enforcement boundary is hidden",
-         lambda f: {**f, "ship-skill/SKILL.md": md.replace("persuasion, not enforcement", "x")}),
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    md.replace("Persuasion, not enforcement", "x").replace("persuasion, not enforcement", "x")}),
         ("the unavailable-MULTI row is dropped",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("MULTI indicated; unavailable", "x")}),
         ("refuted collapses back into unsupported",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("Unsupported is an absence", "x")}),
         ("no-drive-by stops applying below the file",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("EVERY granularity", "files")}),
+        # mutate the LOCATION too: the finding was that this rule was filed in the
+        # wrong section, so moving it back out must turn the gate red.
         ("source prose stops counting as source",
-         lambda f: {**f, "ship-skill/SKILL.md": md.replace("prose is part of the source", "x")}),
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("Read what a source says about itself", "x")}),
         ("the scope rule loses its no-narrowing clause",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("cannot be narrowed", "may be adjusted")}),
         ("Step 1's short path drops the stakes half again",

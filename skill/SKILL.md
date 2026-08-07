@@ -20,26 +20,13 @@ experience rather than by someone guessing in advance what would go wrong.
 
 ---
 
-## ⚠ What this skill is, and what it cannot do
+## What this is
 
-**This is persuasion, not enforcement.** Every rule below is a thing you are asked to
-do, and nothing here can stop you writing "all checks passed" without running one. A
-model can assert it saw a test go red without ever running it, and this file has no way
-to know.
-
-That is not a flaw to apologise for — it is the honest boundary of what a skill *is*,
-and pretending otherwise is worse than saying it. But it means:
-
-- **A green report from this skill is a claim, not a proof.** The evidence it cites is
-  what makes it checkable; that is why every rule here insists on naming evidence rather
-  than asserting outcomes.
-- **Where being wrong is expensive, put a real gate outside the model.** A test suite in
-  CI, a required reviewer, a pre-commit hook, a second person. Something that can say no
-  when the model says yes. In Claude Code, a `Stop` hook can block a session from ending
-  until an external reviewer has actually written its verdict to disk — that is a
-  syscall, and this file is not.
-
-**Use both.** The skill makes the judgement better; the gate makes it checkable.
+**Persuasion, not enforcement.** Nothing here can stop a model claiming a check passed
+without running it, so a green report from this skill is a *claim* — the evidence it
+cites is what makes it checkable. Where being wrong is expensive, put a real gate
+outside the model: CI, a required reviewer, a `Stop` hook that blocks until an external
+verdict is on disk. The skill makes the judgement better; the gate makes it checkable.
 
 ---
 
@@ -97,7 +84,13 @@ stop.
 | A known, unfixed defect **inside** declared scope | **DRAFT** — or BLOCKED if it is a real problem. Never SHIP. |
 | Something you **could not verify**, and which is **not required** for the claim you are making | SHIP is available. The boundary goes in "What was NOT checked". |
 | A **required** in-scope check you could not run | **DRAFT.** "Missing evidence is not a pass" governs — an unrunnable check does not become optional by being unrunnable. |
-| Something genuinely **outside** declared scope | SHIP is available. Name it so nobody assumes it was covered. |
+| Something genuinely **outside** declared scope, **and not harmful** | SHIP is available. Name it so nobody assumes it was covered. |
+| Out of scope **and harmful if acted on** — misleading, unsafe, someone will decide from it | **BLOCKED**, whoever wrote it and whatever the scope said. |
+
+**Scope decides whose job it is. Harm decides whether it can ship.** Those two rules
+collide on an inherited defect that is also out of scope — that is the resolution. A
+boundary that lets you stay silent about something dangerous is not a scope rule, it is
+an excuse.
 
 **The test, when the table does not settle it:** *if the reader knew this, would they
 be surprised the verdict was SHIP?* If yes, it is not SHIP. That question resolves
@@ -156,6 +149,12 @@ it is why a one-line fix arrives as a forty-line diff nobody can check.
 ---
 
 ## Step 3 — Prove the round
+
+**Read what a source says about itself, not only what it tabulates.** Comments,
+headers, footnotes, README lines, the note at the top of a CSV — those carry meaning
+and every automatic check skips them. A parser reading only the data can reconcile
+every figure perfectly while the document's stated basis is inverted by one line it
+never saw. **The most damaging errors are the ones where all the numbers are right.**
 
 State what you checked **with the actual result**:
 
@@ -408,28 +407,12 @@ Report, briefly:
 
 Then stop. Do not append things you did not do and call them next steps unless asked.
 
-### ⚠ A verdict must be retractable — you have to be able to take DONE back
+### A verdict must be retractable
 
-**A system that can only promote is a burndown chart with extra steps.** If SHIP is a
-one-way door, the word means "nobody has objected yet", not "this was proven".
-
-So: **when later evidence contradicts a sealed verdict, retract it explicitly.** Not
-quietly, not by shipping a fix and moving on — say it:
-
-> *"Retracting the SHIP on X. It sealed on <what was proven then>; <what showed up
-> since> contradicts that. New verdict: DRAFT/BLOCKED."*
-
-Three things make this real rather than decorative:
-
-- **The retraction names the original evidence** and what beat it. "It turned out to be
-  wrong" is not a retraction, it is an apology.
-- **A retracted SHIP produces a scar** — this is the clearest case there is: it cost
-  something, it will recur, and the rule is usually about the check that missed it.
-- **You may retract your own seal from earlier in the same run.** Finding something at
-  Step 6 that invalidates a Step 3 proof means the proof is stale, not that the seal is
-  already written.
-
-**Anything that can only ever move forward will eventually be wrong and stay wrong.**
+**A system that can only promote is a burndown chart with extra steps.** When later
+evidence contradicts a sealed verdict, retract it explicitly — name the original
+evidence and what beat it, and record a scar; that is the clearest case there is. You
+may retract your own seal from earlier in the same run.
 
 ---
 
@@ -493,8 +476,11 @@ diary. The last three are what make it a defence, and they are the three people 
 - **RULE is an instruction, not a regret.** "Be more careful with numbers" is not a rule —
   nothing can follow it. "Trace every figure to the sentence it came from" is, because you
   can tell whether you did it.
-- **GUARD names where the rule now lives** — a step here, a checklist line, a question you
-  now always ask. If there genuinely isn't one, write `GUARD: NONE` **honestly**. An honest
+- **GUARD names where the rule now lives** — a step here, a checklist line, a test, or
+  **a question you now always ask, which is a real guard and not a lesser one.** If you
+  edited nothing, say that; an invented "added to Step 4" is false and reads as stronger,
+  which is the exact incentive to avoid. If there genuinely isn't one, write
+  `GUARD: NONE` **honestly**. An honest
   NONE is a hazard you know about; an invented guard reads as protected and is worse than
   nothing.
 - **EVIDENCE names what in *this run* proved it** — what happened, not why it sounds
@@ -507,6 +493,12 @@ diary. The last three are what make it a defence, and they are the three people 
 One careful pass over a 25-line document once produced **three scars, all with genuine
 evidence.** Each was defensible and the file was worse for them, because a `SCARS.md`
 nobody reads has failed exactly the way notes fail.
+
+**A scar is about the RUN, not about you.** The trigger is not "I made a mistake", it is
+"this run hit something that will happen again". Finding a trap in someone else's
+document that nearly worked is a scar; you did not cause it and that is irrelevant.
+Checking work you did not write is the most common real use of this skill, and a trigger
+phrased as self-blame silently excludes it.
 
 **Record one only if it clears all three:**
 
@@ -559,30 +551,11 @@ theirs to confirm. Skipping the paste loses the scar with nothing to warn you �
 still looks successful — which is why the seal asks about the scar at all: it makes the
 loss visible now rather than three months from now.
 
-### Carving a new skill out of scars — the part that compounds
+### Carving a new skill out of scars
 
-Watch for **three or more scars in the same territory** — not the same mistake three times
-but the same *area*: three about numbers, three about client-email tone, three about one
-system. That area is recurring work and has earned its own instructions:
+When **three or more scars land in the same territory**, that territory has earned its
+own skill. The procedure is in `SCARS.md`, next to the scars it operates on.
 
-1. **Write a sibling skill folder** named for the territory — `checking-figures`,
-   `client-emails`, `monthly-report`.
-2. **Put the rules in as procedure**, not warnings: steps, order, specific checks, the
-   phrasing that worked, the trap that keeps catching you. Scars are raw material; the
-   skill is the finished procedure.
-3. **Name the scar each rule came from.** Recorded origins survive someone asking "do we
-   still need this?"; a rule without one gets deleted by the first person tidying up, and
-   then it happens again.
-4. **Leave a pointer here**, so this skill loads the child in that territory.
-5. **Delete those entries from `SCARS.md`.** Not housekeeping — the file stays short
-   *because* things graduate out of it, and one nobody reads has failed like notes fail.
-
-The loop: **work produces scars → scars accumulate into a territory → the territory becomes
-a skill → the skill makes that work reliable → and the workflow is now better at your job
-specifically, not at jobs in general.** Nobody can hand you that version; it can only be
-grown.
-
----
 
 ## The checks — mark each PASS / FAIL / N/A-with-reason
 
@@ -612,58 +585,33 @@ Skip what does not apply, but **say you skipped it and why.** Silence reads as "
 | Version + record | Version bumped, and change recorded where the project already records changes? |
 | Rollback | Is the reverse path known? |
 
-### ⚠ Never tune against the check that will judge you
+### Never tune against the check that will judge you
 
-If you adjust the work until a particular check passes, **that check has stopped
-measuring anything** — it now measures how hard you tuned. Same failure as a test written
-from the implementation, one level up, and invisible from the inside because everything
-is green.
+Adjust the work until a particular check passes and **that check now measures how hard
+you tuned**, not whether the work is right — invisible from inside, because everything
+is green. Keep an acceptance gate you did not touch: held-back examples, a second
+reviewer, a case you never looked at. If you only had one check and you tuned against
+it, say so: *"passes the check I tuned against; not independently verified."*
 
-So when optimising against any metric — a prompt, a threshold, a ranking, a piece of copy
-— **keep an acceptance gate you did not tune against**: held-back examples, a second
-reviewer, a case you never looked at while working. If you only have one check and you
-tuned against it, **say so in the seal**: *"passes the check I tuned against; not
-independently verified."* That sentence is worth more than the green.
+### The tests are also a suspect, not only the instrument
 
-### ⚠ The tests are also a suspect, not only the instrument
+Tests are an artifact someone wrote, and they can be **wrong in the same direction as
+the bug** — in which case a green suite is not weak evidence, it is evidence pointing
+the wrong way. (Measured: a green 4/4 suite with two tests asserting an uncapped
+discount as correct.)
 
-Everything above treats tests as the thing that *proves* the work. They are also an
-artifact someone wrote, and they can be **wrong in the same direction as the bug** — in
-which case a green suite is not weak evidence, it is *evidence pointing the wrong way*,
-and the more of it there is the more confident you become.
+**When code and its tests disagree with the documented intent, count the artifacts** —
+spec, comments, naming and tests each vote; two against one usually means the one is
+wrong, and a test is not exempt. Then:
 
-Not hypothetical. A trial of this skill was handed a pricing module with a documented
-30% discount cap that was never applied, a green 4/4 suite, and **two tests asserting
-the uncapped 50% discount as correct.** The natural failure is to run the suite, see
-green, and report nothing wrong.
+1. Does the test assert the **documented** behaviour, or the current one? A test written
+   from the implementation can never fail.
+2. **Would it fail if the bug came back?** If you cannot say, restore the old code and
+   watch. That is the only way to know a green test is load-bearing.
+3. Does its **name** describe what it asserts? A name describing inverted behaviour is a
+   stale claim, and correcting it **outranks no-drive-by**.
 
-⚠ **A source's prose is part of the source.** Comments, headers, footnotes, README
-lines, the note at the top of a CSV — those carry meaning, and every automatic check
-skips them. A parser reading only the data can reconcile every figure perfectly while the
-document's stated basis is inverted by one line it never saw.
-
-So **read what a source says about itself**, not only what it tabulates. The most
-damaging errors are the ones where all the numbers are right.
-
-**When code and its tests disagree with the documented intent, count the artifacts.**
-The spec, the comments, the naming and the tests are each a vote about what the code is
-*supposed* to do. Two agreeing against one usually means the one is wrong — and a test
-is not exempt from being the one.
-
-So when a check passes and something still feels off, ask in this order:
-
-1. **Does the test assert the documented behaviour, or the current behaviour?** A test
-   written from the implementation can never fail — it is a mirror.
-2. **Would this test fail if the bug came back?** If you cannot answer, run it: restore
-   the old code and watch. That is a mutation check and it is the only way to know a
-   green test is load-bearing.
-3. **Does the test's NAME describe what it asserts?** A name describing inverted
-   behaviour is a stale claim, and **that outranks the no-drive-by-changes rule** —
-   correcting it is part of the fix, not a change nobody asked for.
-
-**A lying test is corrected, not deleted, and the correction is reported as part of the
-work.** Quietly dropping an inconvenient assertion leaves the next person the same bug
-with less warning than you had.
+A lying test is corrected and reported, never quietly deleted.
 
 **On tests:** "the suite is green" is not evidence that *your* tests ran — prove they
 executed, with a count before and after or the new test names in the output. And a test

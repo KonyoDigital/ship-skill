@@ -87,9 +87,31 @@ for m in re.finditer(r"exactly (two|three|four) reasons", md): ...
 > `UNFIXABLE HERE` was added. Adding an item and not updating its count is not a typo,
 > it is a *class*.
 
+## 7. When a check keeps passing on stale data, change the SOURCE
+
+A fresher cache-buster is not the fix. Find a source that cannot be stale.
+
+```bash
+curl .../main/FILE            # ✗ CDN-cached; returns yesterday's file
+curl api.github.com/.../main  # ✗ propagation window; returns the previous SHA
+git ls-remote <url> main      # ✓ git protocol — the ref the push just wrote
+```
+
+> **Scars, two, and the second was the fix for the first.** `sync.sh` fetched
+> `.../main/SKILL.md`, compared the local copy against **what it had just fetched**,
+> matched, and reported OK — certifying stale content. Replaced with "resolve the SHA
+> from the API, fetch that immutable path", which is correct reasoning and still wrong:
+> that API has a propagation window and returns the previous SHA for a while after a
+> push. It then verified faithfully against a stale-but-real commit and reported OK
+> again. Both a repo and a live install sat a commit behind while the guard said in sync.
+
+**The general form: verifying "I match what I fetched" is not verifying "I match
+upstream."** Whenever a check compares against something it retrieved itself, ask what
+happens when the retrieval is wrong.
+
 ---
 
-## The rule under all six
+## The rule under all seven
 
 **When a gate fails, ask whether the subject is wrong or the instrument is.** Five of
 these six were the instrument. Fixing the document to satisfy a broken checker is the

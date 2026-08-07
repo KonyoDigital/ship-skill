@@ -101,13 +101,25 @@ EVIDENCE     the figure appeared in my draft and in no paragraph of the source;
 
 ## When to carve a new skill
 
-When **three or more scars land in the same territory** — three about numbers, three about
-client emails, three about one system — that area is not an occasional hazard. It is a
-recurring kind of work, and it has earned its own skill.
+Watch for **three or more scars in the same territory** — not the same mistake three times
+but the same *area*: three about numbers, three about client-email tone, three about one
+system. That area is recurring work and has earned its own instructions:
 
-Sibling folder, own `SKILL.md`, rules rewritten as procedure rather than warnings, each
-keeping a line naming the scar it came from — and **delete those entries from here.** Full
-steps in `SKILL.md` Step 7.
+1. **Write a sibling skill folder** named for the territory — `checking-figures`,
+   `client-emails`, `monthly-report`.
+2. **Put the rules in as procedure**, not warnings: steps, order, specific checks, the
+   phrasing that worked, the trap that keeps catching you. Scars are raw material; the
+   skill is the finished procedure.
+3. **Name the scar each rule came from.** Recorded origins survive someone asking "do we
+   still need this?"; a rule without one gets deleted by the first person tidying up, and
+   then it happens again.
+4. **Leave a pointer here**, so this skill loads the child in that territory.
+5. **Delete those entries from `SCARS.md`.** Not housekeeping — the file stays short
+   *because* things graduate out of it, and one nobody reads has failed like notes fail.
 
-This file is supposed to stay short. Not because things stop going wrong, but because
-things keep graduating out of it.
+The loop: **work produces scars → scars accumulate into a territory → the territory becomes
+a skill → the skill makes that work reliable → and the workflow is now better at your job
+specifically, not at jobs in general.** Nobody can hand you that version; it can only be
+grown.
+
+---
