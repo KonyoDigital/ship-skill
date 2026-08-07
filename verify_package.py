@@ -272,6 +272,10 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          f"readers hit all three; one detached the DRAFT/BLOCKED table from the paragraph "
          f"explaining it, which both called the sharpest thing in the file")
 
+    want("Ratifying your founding rules" in scars and "must not write these for you" in scars,
+         "SCARS.md carries the ratification conversation — the candidates are shapes and "
+         "the loop cannot compound until a real user replaces them, so the file has to "
+         "say HOW, and has to forbid Claude inventing the answers")
     want("never that it was saved" in md,
          "the seal says scar durability is UNVERIFIED and never claims it was saved — "
          "reading a file back proves the write, never that the workspace survives")
@@ -393,6 +397,9 @@ def self_test() -> int:
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("**Compelled**", "**Compelled", 1)}),
         ("permission stops bounding the sweep",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("permission bounds the sweep", "x")}),
+        ("the ratification conversation is dropped",
+         lambda f: {**f, "ship-skill/SCARS.md":
+                    f["ship-skill/SCARS.md"].decode().replace("Ratifying your founding rules", "x").encode()}),
         ("the scope rule loses its no-narrowing clause",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("cannot be narrowed", "may be adjusted")}),
         ("Step 1's short path drops the stakes half again",

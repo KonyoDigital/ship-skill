@@ -60,6 +60,44 @@ words**, delete the rest, and **delete this whole section once you have.**
 
 <!-- ===== LEARNED BELOW · appended from runs that went wrong ===== -->
 
+## Ratifying your founding rules — the conversation
+
+The candidates above are **shapes, not content.** Until you replace them, this file has
+no founding rules and every run proceeds on the skill's steps alone. That is a legitimate
+state and it is also the thing stopping the loop from compounding.
+
+**You cannot write these from first principles, and neither can Claude.** A rule invented
+in advance is a guess about what will go wrong; the ones that hold come from things that
+already did. So the conversation is short and it is about your past, not your intentions.
+
+**Ask Claude to run it, or answer these yourself. Four questions:**
+
+1. **What went out wrong in the last year — and what did it cost?** Not near-misses.
+   Something that reached someone. One or two is plenty.
+2. **What did you find out afterwards that you could have checked before?** This is where
+   the rule lives. "I could have opened the source" is a rule. "I should have been more
+   careful" is not.
+3. **What do you already always do, that you would be annoyed to see skipped?** These are
+   founding rules you have never written down. They are usually the strongest, because
+   you have already been following them long enough to trust them.
+4. **What would you refuse to do even under time pressure?** A rule that bends when you
+   are busy is not founding — it is a preference, and it belongs lower.
+
+**Then write three to six, in your own words, each with the thing that produced it.**
+The evidence line is not decoration: a year from now it is the only thing that lets you
+tell a rule you chose from a rule you absorbed. Three is plenty. Twenty is a list nobody
+reads, which is the failure this whole file is built against.
+
+**Delete the CANDIDATES block once you have them.** Two sets of rules with different
+authority in one file is exactly the ambiguity the two-layer split exists to remove.
+
+⚠ **Claude must not write these for you.** It can ask the questions, push back on a rule
+that is not actionable, and draft wording *from answers you gave* — that is editing, and
+it is welcome. Inventing the answers is not: a founding rule carries your authority, and
+one you did not choose will be followed by every future run as though you had.
+
+---
+
 ## LEARNED SCARS
 
 Lower authority than the founding rules, on purpose: a rule extracted from one bad
