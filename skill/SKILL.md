@@ -229,8 +229,9 @@ they were separate passes.
 3. **Blast radius** — what does this affect that nobody listed? What breaks downstream?
    How would someone undo it?
 4. **The embarrassment test** — what, **if anything**, is the first thing the most
-   demanding reader would object to? Name it; fixing is Step 5. **If the honest answer
-   is nothing, say nothing** — the rule below about not manufacturing a problem applies
+   demanding reader would object to? Name it; fixing is Step 5. **If the honest answer is nothing, the block says
+   "nothing to report"** — which satisfies both rules; four labelled blocks is the shape,
+   and an empty one is a legitimate finding** — the rule below about not manufacturing a problem applies
    hardest here, because this lens is the one that invites invention.
 
 > **You are being asked for analysis, not agreement** — and equally, do **not** manufacture
@@ -354,7 +355,7 @@ exactly four reasons, and **say which**:
 | | |
 |---|---|
 | **PASSED** | The check succeeds. The only real success. |
-| **CEILING** | Hit the limit, still failing, **and the failure kept changing.** Possibly converging — it needs more room than you allowed. |
+| **CEILING** | Out of room, still failing, **and the failure kept changing.** Possibly converging. That is the limit they gave you — or, if they gave none, the point at which continuing needs someone to say so. |
 | **STALLED** | The same failure **twice** running, unchanged. **Stop immediately.** |
 | **UNFIXABLE HERE** | You checked thoroughly and found defects you cannot fix — missing data, missing access, someone else's call. **No number of passes touches these.** Name each and who can act on it. |
 
@@ -365,9 +366,11 @@ incomplete, the work is sound — unless a defect makes the output actively misl
 which is BLOCKED.
 
 **CEILING and STALLED** both mean "not fixed", and the difference is what they license. **Both stop
-the loop and get reported** — the ceiling you set is the discipline, and drifting past it is
+the loop and get reported** — the limit is the discipline, and drifting past it is
 how "a few more passes" becomes an afternoon. What differs is what happens next: CEILING
-means *another run is worth granting*, so either a human decides or you set a new ceiling
+means *another run is worth granting* — so a human decides. If they gave no limit in
+the first place, that decision is theirs too: you do not get to grant yourself more
+room on a budget nobody set
 **deliberately, with the reason stated**. STALLED means *more passes buy nothing* — change
 the approach, the assumption under it, or what you are checking, then start a fresh count.
 

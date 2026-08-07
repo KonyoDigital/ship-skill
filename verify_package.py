@@ -218,6 +218,18 @@ def check(zf: zipfile.ZipFile) -> list[str]:
     want("Nothing \"loads itself.\"" in md,
          "the scar mechanism does not claim to load itself — it is Step 0 discipline, "
          "and claiming more would be the unearned promise this skill exists to catch")
+    # ⚠ THE SWEEP CHECK. The ceiling rule was changed in ONE place and left in three
+    # others, so CEILING was still defined as "hit the limit" — unfireable when nobody
+    # set a limit, quietly turning a four-way stop into a three-way. That is this
+    # skill's own "kill the stale claim" failing on its own text, and no single-phrase
+    # check would have caught it: the new text was present and correct.
+    want("the ceiling you set" not in flat and "set a new ceiling" not in flat,
+         "the ceiling edit is SWEPT — no surviving text tells the reader to invent or "
+         "re-grant a limit the person never gave")
+    want("nothing to report" in flat,
+         "the four-lens output shape and 'say nothing if nothing' compose explicitly — a "
+         "block reading 'nothing to report' satisfies both, and without saying so they "
+         "read as opposites")
     want("never that it was saved" in md,
          "the seal says scar durability is UNVERIFIED and never claims it was saved — "
          "reading a file back proves the write, never that the workspace survives")
