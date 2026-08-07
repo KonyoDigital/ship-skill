@@ -172,6 +172,16 @@ link resolves — not that the link text looks right.
 instance, or list the ones you deliberately left and why. Fixing only the one in front of
 you is how the same mistake ships three times.
 
+⚠ **Sweep and no-drive-by are not in conflict — the line between them is the DEFECT
+CLASS.** Fixing the same defect everywhere it occurs is *finishing the ask*, even in
+files nobody named. Fixing a *different* thing you noticed on the way is a drive-by.
+
+> One bug reported → sweep every instance **of that bug**. One bug reported → do not
+> also rename the variable, reformat the file, or fix the unrelated thing two lines down.
+
+Same defect, wider blast radius: **do it, and say you did.** Different defect: **name
+it, do not touch it.**
+
 **Finish the sweep you print.** If you list places to check, check *all* of them. A
 half-worked list is worse than no list because it looks like diligence. (Real failure: a
 sweep flagged fourteen files, eight got checked, and one of the six skipped was broken in
@@ -206,6 +216,11 @@ Stop building. Try to **break what you made.** Read it as if you had never seen 
 someone is asking you to approve it — not to admire it.
 
 Four lenses, **one at a time**, because each catches what the others miss:
+
+**Report them as four labelled blocks, or four explicit N/As with reasons.** Merged into
+one paragraph, *"I considered all four"* is unfalsifiable — and merging is what a run
+produces when it did not do them separately. Separate headings are the only evidence that
+they were separate passes.
 
 1. **Correctness** — is anything actually *wrong*? Numbers, logic, facts, names, dates,
    claims.
@@ -349,7 +364,7 @@ it just produces the same answer more expensively. It routes to **DRAFT** — th
 incomplete, the work is sound — unless a defect makes the output actively misleading,
 which is BLOCKED.
 
-Both of the last two mean "not fixed", and the difference is what they license. **Both stop
+**CEILING and STALLED** both mean "not fixed", and the difference is what they license. **Both stop
 the loop and get reported** — the ceiling you set is the discipline, and drifting past it is
 how "a few more passes" becomes an afternoon. What differs is what happens next: CEILING
 means *another run is worth granting*, so either a human decides or you set a new ceiling
@@ -379,7 +394,8 @@ Report, briefly:
   sat outside the scope declared at Step 1. This section explains a SHIP; it never
   rescues one.
 - **How to undo it** — if it is that kind of work.
-- **Stopped because** — PASSED / CEILING / STALLED, after how many passes.
+- **Stopped because** — PASSED / CEILING / STALLED / UNFIXABLE HERE, after how many
+  passes. All four, or the fourth is a rule the seal cannot report.
 - **Mode** — SOLO or MULTI, truthfully; if MULTI, which rung and what reviewed it.
 - **Scars** — did an existing scar apply, and did you follow it? Did this run produce a
   new one? If yes, **print the scar block, ready to paste, including its EVIDENCE line**,
@@ -418,8 +434,15 @@ Three things make this real rather than decorative:
 
 Everything above improves *this* work. This step is the only one that improves the **next**
 work. A conversation ends and everything it learned dies with it; notes don't help, because
-nobody re-reads their notes before starting. **A scar is a mistake converted into a rule
-that loads itself.**
+nobody re-reads their notes before starting. **A scar is a mistake converted into a rule that
+is re-read at the start of every run** — Step 0, from the file, not remembered from a
+conversation.
+
+⚠ Nothing "loads itself." The only mechanism is that you read `SCARS.md` before Step 1,
+which is discipline — the same kind that makes notes fail. What makes it different is
+that it is *one short file, in the place the work happens, read at a fixed point*, rather
+than a notebook you might consult. That is a real difference and a small one, and
+claiming more would be exactly the unearned promise this skill exists to catch.
 
 ### Two layers, and the difference is authority
 

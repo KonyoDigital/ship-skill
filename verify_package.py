@@ -38,6 +38,8 @@ def check(zf: zipfile.ZipFile) -> list[str]:
     # variant of this same class in one session — the fix is normalising the markup,
     # not rewording the file to suit the checker.
     flat = " ".join(re.sub(r"^\s*>\s?", "", md, flags=re.M).split())
+    seal_all = (md[md.index("## Step 6"):md.index("## Step 7")]
+                if "## Step 6" in md and "## Step 7" in md else "")
 
     def want(cond, label):
         print(("  ok   · " if cond else "  FAIL · ") + label)
@@ -199,6 +201,23 @@ def check(zf: zipfile.ZipFile) -> list[str]:
     want("prose is part of the source" in flat,
          "a source's own prose counts — the load-bearing fact can sit in a comment every "
          "automatic check skips, while all the totals reconcile perfectly")
+    want((HERE / "GATE_RULES.md").is_file(),
+         "the carved gate rules ship — four scars landed in one territory and moved out "
+         "of scattered comments into their own file, which is the graduation this skill "
+         "prescribes, applied to itself")
+    want("UNFIXABLE" in seal_all,
+         "the SEAL can report all FOUR stop reasons — a fourth reason the seal cannot "
+         "express is a rule that silently never fires")
+    want("DEFECT" in flat and "wider blast radius" in flat,
+         "sweep vs no-drive-by is resolved by DEFECT CLASS — same defect everywhere is "
+         "finishing the ask, a different defect noticed on the way is a drive-by")
+    want("four labelled blocks" in flat,
+         "the four lenses require four labelled blocks — merged into one paragraph, "
+         "'I considered all four' is unfalsifiable and is what a run produces when it "
+         "did not do them separately")
+    want("Nothing \"loads itself.\"" in md,
+         "the scar mechanism does not claim to load itself — it is Step 0 discipline, "
+         "and claiming more would be the unearned promise this skill exists to catch")
     want("never that it was saved" in md,
          "the seal says scar durability is UNVERIFIED and never claims it was saved — "
          "reading a file back proves the write, never that the workspace survives")

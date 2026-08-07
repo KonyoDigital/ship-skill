@@ -150,6 +150,23 @@ better; the gate makes it checkable.** Use both.
 *(Both from [@Granite0x's graph-and-loop map](https://x.com/Granite0x/status/2080665298609328201) —
 "build the graph out of loops that can't lie to you about being done.")*
 
+## The carving rule, applied to itself
+
+The skill says: when **three scars land in the same territory**, that territory has
+earned its own skill — move the rules in as a procedure, keep each one's origin, delete
+them from `SCARS.md`.
+
+[`GATE_RULES.md`](GATE_RULES.md) is that, done for real. Four scars landed on one thing —
+`verify_package.py` **failing correct work** — and became six rules, each recording the
+scar that produced it: check the property not the phrasing, normalise markup before
+matching prose, a mutation that no-ops certifies nothing, ignore quoted mentions, assert
+your own preprocessing loses nothing, and count promises structurally.
+
+Five of the six were the *instrument*, not the subject. Which is the rule under all of
+them: **when a gate fails, ask whether the work is wrong or the checker is.** Fixing the
+document to satisfy a broken gate is the worst available outcome — you damage correct
+work *and* keep the broken gate.
+
 ## Credits
 
 Three rules in Step 5 came from the **loop-library** in
