@@ -109,9 +109,43 @@ git ls-remote <url> main      # ✓ git protocol — the ref the push just wrote
 upstream."** Whenever a check compares against something it retrieved itself, ask what
 happens when the retrieval is wrong.
 
+## 8. A syntax check is not a runtime check
+
+`node --check`, `python -m py_compile`, a linter — all of them answer "does this parse",
+never "do these names exist where this runs".
+
+```js
+const G = process.env.FOO        // parses perfectly
+                                 // …and dies instantly in a sandbox with no `process`
+```
+
+> **Scar.** `agent-army` passed every gate for five commits and **had never been run.**
+> Its first real invocation died in 17 ms with `process is not defined`, before spawning
+> a single agent, because a Workflow script has no Node globals — and `verify_repo.sh`
+> said REPO OK the whole time. Identical shape to a deleted variable that still parses.
+
+**If the artifact has a runtime, the gate must start it.** Grep for the globals the
+runtime does not provide, or better, invoke the thing once and check it survives load.
+Proving the pieces in isolation is not proving the assembly.
+
+## 9. Negation does not survive `eval` — count instead
+
+```bash
+chk "no X" "! grep -q X file"        # ✗ zsh: passes unconditionally inside eval
+chk "no X" "test $(grep -c X file) -eq 0"   # ✓
+```
+
+> **Scar.** Two checks in `verify_repo.sh` used `! grep -q …` inside the eval'd string.
+> **Both passed no matter what the file contained** — including the author-path guard I
+> had cited when publishing the repo. Found only by reintroducing a defect and watching
+> the gate stay green.
+
+**Every red proof exists to catch exactly this.** A check that has never been seen to
+fail is not known to run at all, and a negation is the cheapest way to have one.
+
 ---
 
-## The rule under all seven
+## The rule under all nine
 
 **When a gate fails, ask whether the subject is wrong or the instrument is.** Six of
 these seven were the instrument. Fixing the document to satisfy a broken checker is the
