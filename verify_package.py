@@ -201,8 +201,10 @@ def check(zf: zipfile.ZipFile) -> list[str]:
     want("EVERY granularity" in flat and "sentence, clause" in flat,
          "no-drive-by applies below the file — the real failure is dropping a clause "
          "inside a sentence you had cause to touch")
+    # rindex, not index: the pins repeat this rule ABOVE Step 3 on purpose, so the
+    # first occurrence is the pin. What must hold is that it ALSO appears in Step 3.
     want("read what a source says about itself" in low
-         and low.index("read what a source says about itself") > low.index("## step 3"),
+         and low.rindex("read what a source says about itself") > low.index("## step 3"),
          "a source's own prose counts, AND it sits inside Step 3 — two independent trial "
          "agents credited it with the hardest catch and both said it was buried in a "
          "subsection about test suites, where nobody doing document work would look")
