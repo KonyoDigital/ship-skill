@@ -295,6 +295,11 @@ information produces the same answer at rising cost and looks like diligence.
 Then stop for one of
 exactly four reasons, and **say which**:
 
+> **Do not loop on confidence. Loop on evidence.** *"I think it's right now"* is not a
+> stop condition — the tests pass, the schema validates, the citations resolve, the
+> reviewer approved. If you cannot name what would end the loop before you start it,
+> you do not have a loop, you have a habit.
+
 | | |
 |---|---|
 | **PASSED** | The check succeeds. The only real success. |
