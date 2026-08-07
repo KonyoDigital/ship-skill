@@ -143,9 +143,41 @@ chk "no X" "test $(grep -c X file) -eq 0"   # ✓
 **Every red proof exists to catch exactly this.** A check that has never been seen to
 fail is not known to run at all, and a negation is the cheapest way to have one.
 
+## 10. Two rules can interact so that one becomes unobservable
+
+A test that asserts a *formula* is only proved by mutating the formula to the plausible
+wrong one and watching that test go red. If it stays green, it is not measuring the
+formula — it is measuring something the formula happens to imply.
+
+> **Scar.** A policy required **exponential** backoff (200/400/800) and a **3-attempt**
+> cap. Under the cap only two delays ever occur — and `200 → 400` is *both* `+200` and
+> `×2`. A test named "backoff doubles" **passed against the linear implementation**. The
+> two schedules are mathematically indistinguishable inside the policy, so one rule made
+> the other unobservable. Only a test that lifts the cap to a third delay
+> (200/400/800/1600 vs 200/400/600/800) can see the difference.
+
+**Ask what else in the system constrains the thing you are asserting.** When two rules
+overlap, the region where they agree is a blind spot, and a test living entirely inside
+it is green for a reason unrelated to what it claims.
+
+## 11. An answer key inside the work tree is not blind
+
+A grading key an agent can `ls` is a key it will read — not always deliberately, and the
+run is contaminated either way.
+
+> **Scar.** Two trials, two behaviours. The first agent found `GRADING_KEY.md` one level
+> up, **chose not to open it**, and disclosed that. The second read it while listing the
+> directory before finishing its review, and disclosed *that* — honestly, and its own
+> review was contaminated regardless. Same fixture, same placement, different outcome:
+> the design was relying on restraint.
+
+**Keep the key outside any path the run can reach**, and say in the brief that one
+exists. What survives contamination is machine-checked evidence — mutation results, a
+suite run, an independent reviewer that never saw the key.
+
 ---
 
-## The rule under all nine
+## The rule under all eleven
 
 **When a gate fails, ask whether the subject is wrong or the instrument is.** Six of
 these seven were the instrument. Fixing the document to satisfy a broken checker is the
