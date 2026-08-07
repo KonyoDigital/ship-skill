@@ -235,6 +235,13 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "the four-lens output shape and 'say nothing if nothing' compose explicitly — a "
          "block reading 'nothing to report' satisfies both, and without saying so they "
          "read as opposites")
+    want("## The pins" in md and low.index("## the pins") < low.index("## rule 0"),
+         "the PINS open the file — five trials reported uniform emphasis ('two dozen "
+         "warning markers; when everything is flagged, nothing is') and named the same "
+         "handful of rules as load-bearing. They now sit first, with the rest as reasoning")
+    want("does these names exist" in low or "do these names exist" in low,
+         "the Syntax check knows a parse is not a load — agent-army passed every gate "
+         "for five commits and died at 'process is not defined' before spawning an agent")
     want("never that it was saved" in md,
          "the seal says scar durability is UNVERIFIED and never claims it was saved — "
          "reading a file back proves the write, never that the workspace survives")
@@ -350,6 +357,8 @@ def self_test() -> int:
         # wrong section, so moving it back out must turn the gate red.
         ("source prose stops counting as source",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("Read what a source says about itself", "x")}),
+        ("the pins are demoted below Rule 0",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("## The pins", "## Appendix")}),
         ("the scope rule loses its no-narrowing clause",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("cannot be narrowed", "may be adjusted")}),
         ("Step 1's short path drops the stakes half again",

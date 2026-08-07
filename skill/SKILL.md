@@ -30,6 +30,29 @@ verdict is on disk. The skill makes the judgement better; the gate makes it chec
 
 ---
 
+## The pins
+
+Five trial runs, three model families. **These are the rules that did the work** — every
+one of them caught something in a real run. If you read nothing else, read these; the
+rest of the file is the reasoning behind them and the cases they came from.
+
+| | |
+|---|---|
+| **Distrust a check that passes.** | A green suite can be evidence pointing the *wrong way* if the tests are wrong in the same direction as the bug. |
+| **Read what a source says about itself.** | The load-bearing fact hides in a comment, a header, a note at the top of a CSV — where every automatic check skips it, and every total still reconciles. |
+| **Unsupported is not refuted.** | "I lack data to support this" is DRAFT. "The data refutes this" is BLOCKED. Absence vs contradiction. |
+| **Scope widens free, narrows never.** | Free to *name* something outside it; never free to act on it. And narrowing after you start is how a known defect launders into a SHIP. |
+| **No drive-by, at every size.** | File, function, paragraph, sentence, **clause**. The tell: the deletion feels *tidy* rather than *requested*. |
+| **Missing evidence is not a pass.** | A check you could not run is `N/A` with the reason, never a quiet omission. |
+| **Loop on evidence, not confidence.** | If you cannot name what would end the loop before starting it, you have a habit, not a loop. |
+| **Same defect = finish the sweep. Different defect = name it, don't touch it.** | Defect class is the line between thoroughness and a drive-by. |
+| **Say what you did not check.** | The boundary is part of the result. It explains a SHIP; it never rescues one. |
+| **A verdict is retractable.** | Anything that can only promote will eventually be wrong and stay wrong. |
+
+Everything below is *why*, and the cases that produced each one.
+
+---
+
 ## Rule 0 — one verdict, and it fails closed
 
 **Every run ends with exactly one of these three words.** It fails closed: anything short of
@@ -579,7 +602,7 @@ Skip what does not apply, but **say you skipped it and why.** Silence reads as "
 | Check | Question |
 |---|---|
 | Tests | Do tests exist for *this* change, and did they actually run? |
-| Syntax | Does it parse / lint cleanly? |
+| Parses **and loads** | Does it lint clean *and start*? A syntax check answers "does this parse", never "do these names exist where this runs". |
 | Security | Secrets, injection, permissions, unsafe defaults. |
 | Reachability | Is every new thing actually *reached* by something? Dead code described as a feature is worse than a missing feature — nobody looks again. |
 | Version + record | Version bumped, and change recorded where the project already records changes? |
