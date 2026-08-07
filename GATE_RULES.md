@@ -113,6 +113,6 @@ happens when the retrieval is wrong.
 
 ## The rule under all seven
 
-**When a gate fails, ask whether the subject is wrong or the instrument is.** Five of
-these six were the instrument. Fixing the document to satisfy a broken checker is the
+**When a gate fails, ask whether the subject is wrong or the instrument is.** Six of
+these seven were the instrument. Fixing the document to satisfy a broken checker is the
 worst available outcome: you damage correct work *and* keep the broken gate.
