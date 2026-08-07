@@ -672,6 +672,27 @@ it. If a quick pass finds something serious, stop being quick and say so.
 
 ---
 
+
+---
+
+## Meter routing (when a host has lean/max/tiny fleets)
+
+If your environment has **orchestrated multi-agent qualities** (lean / max / tiny),
+those dials control **cost shape**, not thoroughness:
+
+| Dial | Use | Avoid |
+|------|-----|--------|
+| lean / default | Daily multi-step ships | — |
+| tiny + explicit file list | Known small edits | Open-ended diagnosis |
+| max | Small high-stakes irreversible work | "Ship N versions" / whole-product arcs in one run |
+
+**Multi-version arcs = N smaller ships**, each proven and sealed — not one max fleet
+that burns the agent ceiling. Do not stack two fleets on one working tree.
+
+*(Carved 2026-08-07 from a real multi-hour max volume run that correctly BLOCKED
+hollow stamps after ceiling/render failure — gates worked; the meter choice did not.)*
+
+
 ## What this skill will not do
 
 - Report success for work that was not done or not checked.
