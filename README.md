@@ -119,4 +119,15 @@ python3 verify_package.py --self-test  # prove the checks can fail
 
 ---
 
+## Want the machinery, not just the judgement?
+
+[**agent-army**](https://github.com/KonyoDigital/agent-army) is the same shipping
+standard run as a **fleet** in Claude Code: one owner per file, a lead gating every
+merge, an adversarial skeptic panel, and a render gate that drives the real UI at two
+viewports and looks at the pictures. Same laws, many agents, a terminal.
+
+This skill is the judgement. That is the machine.
+
+---
+
 MIT. Built with [Claude Code](https://claude.com/claude-code).
