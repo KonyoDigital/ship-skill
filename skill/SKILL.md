@@ -31,6 +31,19 @@ proven-good reports as DRAFT or BLOCKED, never as SHIP-with-caveats.
 | **DRAFT** | The work is sound but the bar was not fully met — usually missing proof, not missing quality. |
 | **BLOCKED** | A real problem was found. Say what it is and what would unblock it. |
 
+**DRAFT vs BLOCKED, pinned.** Both fit too many situations otherwise — two careful
+readers reached different words from identical facts:
+
+> **BLOCKED — the WORK is wrong**, or cannot proceed. A defect that makes the output
+> misleading, unsafe or unusable. Something is broken and you know it.
+>
+> **DRAFT — the PROOF is short.** Nothing wrong with what is there; something is
+> *missing*: a check you could not run, evidence you could not gather, a decision that
+> is not yours to make.
+>
+> **The test: is the problem in the work, or in the proof?** Work → BLOCKED. Proof →
+> DRAFT. **When both, BLOCKED wins** — it is the louder word, and this fails closed.
+
 ### What counts as "in scope" — the line that decides the verdict
 
 Rule 0 forbids SHIP-with-caveats. Step 6 requires a *"What was NOT checked"* section.
@@ -65,8 +78,14 @@ Never report SHIP to be agreeable. A wrong SHIP costs far more than an honest DR
 
 **Restate the goal in your own words** — that is what surfaces a misread of the request
 itself. Include: what "done" looks like **concretely**, what is explicitly **out of
-scope**, and anything **ambiguous**. Ask about the ambiguity now; a wrong assumption is
-cheapest to fix here.
+scope**, and anything **ambiguous**. Ask about the ambiguity now; a wrong assumption is cheapest to fix here.
+
+⚠ **If you cannot ask — you are a subagent, a scheduled run, or nobody is there — do
+NOT resolve the ambiguity by picking.** State the question, take the **narrower**
+reading, and carry both to the seal: *"I read X as A; if you meant B, this needs
+redoing."* A question answered by assumption looks identical to a question never
+asked, and the narrower reading fails safe — it under-delivers visibly rather than
+over-reaching invisibly.
 
 **Say what is in scope and what is not, explicitly.** That declaration is what Rule 0's
 verdict table reads later, and it cannot be narrowed once you start — so draw it now,
@@ -247,6 +266,13 @@ exactly three reasons, and **say which**:
 | **PASSED** | The check succeeds. The only real success. |
 | **CEILING** | Hit the limit, still failing, **and the failure kept changing.** Possibly converging — it needs more room than you allowed. |
 | **STALLED** | The same failure **twice** running, unchanged. **Stop immediately.** |
+| **UNFIXABLE HERE** | You checked thoroughly and found defects you cannot fix — missing data, missing access, someone else's call. **No number of passes touches these.** Name each and who can act on it. |
+
+⚠ **UNFIXABLE HERE is neither a failure nor a stall.** The other three assume a check
+you can retry; this is work that is finished as far as you can take it, and looping on
+it just produces the same answer more expensively. It routes to **DRAFT** — the proof is
+incomplete, the work is sound — unless a defect makes the output actively misleading,
+which is BLOCKED.
 
 Both of the last two mean "not fixed", and the difference is what they license. **Both stop
 the loop and get reported** — the ceiling you set is the discipline, and drifting past it is
@@ -351,6 +377,23 @@ diary. The last three are what make it a defence, and they are the three people 
   sensible. This is the difference between a rule and a superstition. Without it, the
   workflow fills with confident restrictions nobody can trace, refusing things for reasons
   that were never true.
+
+### ⚠ At most ONE scar per run — usually none
+
+One careful pass over a 25-line document once produced **three scars, all with genuine
+evidence.** Each was defensible and the file was worse for them, because a `SCARS.md`
+nobody reads has failed exactly the way notes fail.
+
+**Record one only if it clears all three:**
+
+1. **It cost something** — rework, a wrong answer that got out, real time. "I noticed a
+   thing" is not a scar.
+2. **It would recur** — the same shape can happen again on different work. A one-off
+   quirk of this file is not a rule.
+3. **The rule is actionable** — you can tell whether a future run followed it.
+
+If several qualify, **write the most expensive one.** If none do, **"no scar" is the
+correct and common answer** — most good runs produce none.
 
 ### Undoing one
 

@@ -4,7 +4,8 @@ Two layers — FOUNDING and LEARNED — and the difference between them is **aut
 third block, CANDIDATES, is temporary scaffolding with no authority at all; it is meant to be
 emptied and deleted.)
 
-**Claude reads this file first, before Step 1.** It is the only file here written by
+**Claude reads this file first, before Step 1.** Once it has entries it is the only
+file here written by
 experience rather than by someone guessing in advance what would go wrong — which is why
 it is worth more per line than the rest of it.
 

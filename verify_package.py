@@ -130,6 +130,24 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "the embarrassment lens asks what, IF ANYTHING — without it the lens obliges "
          "an objection into existence, contradicting the rule four lines below it "
          "forbidding a manufactured problem")
+    want("If you cannot ask" in md and "narrower" in md,
+         "Step 1 has a no-channel fallback — a subagent or scheduled run cannot ask, "
+         "and a question answered by assumption looks identical to one never asked")
+    want("is the problem in the work, or in the proof" in md,
+         "DRAFT vs BLOCKED is PINNED — work wrong is BLOCKED, proof short is DRAFT, "
+         "both is BLOCKED; two careful readers reached different words from identical "
+         "facts without it")
+    want("UNFIXABLE HERE" in md,
+         "there is a verdict for 'checked thoroughly, found defects I cannot fix' — "
+         "the other three assume a check you can RETRY, and looping on an unfixable "
+         "defect just produces the same answer more expensively")
+    want("At most ONE scar per run" in md and "no scar" in md,
+         "scar triage ships — one careful pass over a 25-line document produced THREE "
+         "scars with genuine evidence, which is how the file becomes the unread thing "
+         "it warns about")
+    want("Once it has entries" in scars,
+         "SCARS.md carries the SAME hedge as SKILL.md — 'the only file written by "
+         "experience' was fixed in one place and left unhedged in the other")
     want("never that it was saved" in md,
          "the seal says scar durability is UNVERIFIED and never claims it was saved — "
          "reading a file back proves the write, never that the workspace survives")
@@ -203,6 +221,14 @@ def self_test() -> int:
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("A **required** in-scope check you could not run", "x")}),
         ("tests stop being treated as a suspect",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("also a suspect, not only the instrument", "x")}),
+        ("the no-channel fallback is dropped",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("If you cannot ask", "x")}),
+        ("DRAFT vs BLOCKED goes unpinned again",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("is the problem in the work, or in the proof", "x")}),
+        ("the unfixable verdict disappears",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("UNFIXABLE HERE", "x")}),
+        ("scar triage is removed",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("At most ONE scar per run", "x")}),
         ("the scope rule loses its no-narrowing clause",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("cannot be narrowed", "may be adjusted")}),
         ("Step 1's short path drops the stakes half again",
