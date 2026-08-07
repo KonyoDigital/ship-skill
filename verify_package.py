@@ -166,6 +166,17 @@ def check(zf: zipfile.ZipFile) -> list[str]:
     want("tune against the check" in flat and "not independently verified" in flat,
          "tuning against the check that judges you is named — the check then measures "
          "how hard you tuned, and it is invisible from inside because everything is green")
+    want("take DONE back" in flat and "Retracting the SHIP" in flat,
+         "a sealed verdict is RETRACTABLE — a system that can only promote is a "
+         "burndown chart with extra steps, and a one-way SHIP means 'nobody has "
+         "objected yet' rather than 'this was proven' (Granite0x's test: can your "
+         "system take done back?)")
+    want("persuasion, not enforcement" in flat,
+         "the skill states its own boundary up front — it cannot stop anyone claiming "
+         "a check passed without running it, and a green report is a CLAIM not a proof")
+    want("Stop` hook" in md or "Stop hook" in flat,
+         "…and it points at a real gate outside the model for when being wrong is "
+         "expensive, rather than implying the text is enforcement")
     want("never that it was saved" in md,
          "the seal says scar durability is UNVERIFIED and never claims it was saved — "
          "reading a file back proves the write, never that the workspace survives")
@@ -266,6 +277,10 @@ def self_test() -> int:
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("tune against the check", "x")}),
         ("a verdict count stops matching its table",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("exactly four reasons", "exactly three reasons")}),
+        ("retraction is dropped — the system can only promote",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("take DONE back", "x")}),
+        ("the persuasion-not-enforcement boundary is hidden",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("persuasion, not enforcement", "x")}),
         ("the scope rule loses its no-narrowing clause",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("cannot be narrowed", "may be adjusted")}),
         ("Step 1's short path drops the stakes half again",

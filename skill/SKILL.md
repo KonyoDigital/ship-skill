@@ -20,6 +20,29 @@ experience rather than by someone guessing in advance what would go wrong.
 
 ---
 
+## ⚠ What this skill is, and what it cannot do
+
+**This is persuasion, not enforcement.** Every rule below is a thing you are asked to
+do, and nothing here can stop you writing "all checks passed" without running one. A
+model can assert it saw a test go red without ever running it, and this file has no way
+to know.
+
+That is not a flaw to apologise for — it is the honest boundary of what a skill *is*,
+and pretending otherwise is worse than saying it. But it means:
+
+- **A green report from this skill is a claim, not a proof.** The evidence it cites is
+  what makes it checkable; that is why every rule here insists on naming evidence rather
+  than asserting outcomes.
+- **Where being wrong is expensive, put a real gate outside the model.** A test suite in
+  CI, a required reviewer, a pre-commit hook, a second person. Something that can say no
+  when the model says yes. In Claude Code, a `Stop` hook can block a session from ending
+  until an external reviewer has actually written its verdict to disk — that is a
+  syscall, and this file is not.
+
+**Use both.** The skill makes the judgement better; the gate makes it checkable.
+
+---
+
 ## Rule 0 — one verdict, and it fails closed
 
 **Every run ends with exactly one of these three words.** It fails closed: anything short of
@@ -324,6 +347,29 @@ Report, briefly:
   forever.
 
 Then stop. Do not append things you did not do and call them next steps unless asked.
+
+### ⚠ A verdict must be retractable — you have to be able to take DONE back
+
+**A system that can only promote is a burndown chart with extra steps.** If SHIP is a
+one-way door, the word means "nobody has objected yet", not "this was proven".
+
+So: **when later evidence contradicts a sealed verdict, retract it explicitly.** Not
+quietly, not by shipping a fix and moving on — say it:
+
+> *"Retracting the SHIP on X. It sealed on <what was proven then>; <what showed up
+> since> contradicts that. New verdict: DRAFT/BLOCKED."*
+
+Three things make this real rather than decorative:
+
+- **The retraction names the original evidence** and what beat it. "It turned out to be
+  wrong" is not a retraction, it is an apology.
+- **A retracted SHIP produces a scar** — this is the clearest case there is: it cost
+  something, it will recur, and the rule is usually about the check that missed it.
+- **You may retract your own seal from earlier in the same run.** Finding something at
+  Step 6 that invalidates a Step 3 proof means the proof is stale, not that the seal is
+  already written.
+
+**Anything that can only ever move forward will eventually be wrong and stay wrong.**
 
 ---
 

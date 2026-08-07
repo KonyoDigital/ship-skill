@@ -130,6 +130,26 @@ This skill is the judgement. That is the machine.
 
 ---
 
+## The test it has to pass
+
+> **Can your system take DONE back?**
+
+A system that can only promote is a burndown chart with extra steps. If SHIP is a
+one-way door, the word means *"nobody has objected yet"*, not *"this was proven"*. So a
+sealed verdict is **retractable**: when later evidence contradicts it, you say so
+explicitly, name what beat the original evidence, and record a scar — that case is the
+clearest scar there is.
+
+And the honest boundary, stated in the skill's first section rather than buried:
+**this is persuasion, not enforcement.** Nothing here can stop a model claiming a check
+passed without running it. Where being wrong is expensive, put a real gate outside the
+model — CI, a required reviewer, a `Stop` hook that blocks a session from ending until an
+external reviewer has written its verdict to disk. **The skill makes the judgement
+better; the gate makes it checkable.** Use both.
+
+*(Both from [@Granite0x's graph-and-loop map](https://x.com/Granite0x/status/2080665298609328201) —
+"build the graph out of loops that can't lie to you about being done.")*
+
 ## Credits
 
 Three rules in Step 5 came from the **loop-library** in
