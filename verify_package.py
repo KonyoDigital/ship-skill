@@ -32,7 +32,12 @@ def check(zf: zipfile.ZipFile) -> list[str]:
     # three false failures in one session — "PASSED, CEILING or STALLED", "SOLO or
     # MULTI (Step 4b)", and "not independently verified". A gate that fails correct
     # work is worse than no gate: it teaches you to ignore it.
-    flat = " ".join(md.split())
+    # Strip markdown continuation markers BEFORE flattening: a phrase wrapped inside a
+    # blockquote keeps its "> " at the line break, so a plain whitespace join yields
+    # "It was > already like that" and the check fails on text that is present. Fourth
+    # variant of this same class in one session — the fix is normalising the markup,
+    # not rewording the file to suit the checker.
+    flat = " ".join(re.sub(r"^\s*>\s?", "", md, flags=re.M).split())
 
     def want(cond, label):
         print(("  ok   · " if cond else "  FAIL · ") + label)
@@ -177,6 +182,23 @@ def check(zf: zipfile.ZipFile) -> list[str]:
     want("Stop` hook" in md or "Stop hook" in flat,
          "…and it points at a real gate outside the model for when being wrong is "
          "expensive, rather than implying the text is enforcement")
+    want("MULTI indicated; unavailable" in flat,
+         "the ladder has a row for MULTI being RIGHT and unreachable — a subagent "
+         "cannot spawn subagents, and quietly declaring SOLO hides the difference "
+         "between choosing it and having nothing else available")
+    want("refutes this" in flat and "Unsupported is an absence" in flat,
+         "unsupported (DRAFT) is split from refuted (BLOCKED) — they arrive in the same "
+         "sentence, and treating a refuted claim as merely unsupported ships a wrong "
+         "statement with a caveat instead of fixing it")
+    want("It was already like that" in flat,
+         "…and the verdict does not depend on who caused the defect — an inherited one "
+         "is judged on the artifact's state at the seal")
+    want("EVERY granularity" in flat and "sentence, clause" in flat,
+         "no-drive-by applies below the file — the real failure is dropping a clause "
+         "inside a sentence you had cause to touch")
+    want("prose is part of the source" in flat,
+         "a source's own prose counts — the load-bearing fact can sit in a comment every "
+         "automatic check skips, while all the totals reconcile perfectly")
     want("never that it was saved" in md,
          "the seal says scar durability is UNVERIFIED and never claims it was saved — "
          "reading a file back proves the write, never that the workspace survives")
@@ -281,6 +303,14 @@ def self_test() -> int:
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("take DONE back", "x")}),
         ("the persuasion-not-enforcement boundary is hidden",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("persuasion, not enforcement", "x")}),
+        ("the unavailable-MULTI row is dropped",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("MULTI indicated; unavailable", "x")}),
+        ("refuted collapses back into unsupported",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("Unsupported is an absence", "x")}),
+        ("no-drive-by stops applying below the file",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("EVERY granularity", "files")}),
+        ("source prose stops counting as source",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("prose is part of the source", "x")}),
         ("the scope rule loses its no-narrowing clause",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("cannot be narrowed", "may be adjusted")}),
         ("Step 1's short path drops the stakes half again",

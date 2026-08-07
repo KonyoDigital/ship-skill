@@ -64,6 +64,20 @@ readers reached different words from identical facts:
 > *missing*: a check you could not run, evidence you could not gather, a decision that
 > is not yours to make.
 >
+⚠ **Two things arrive in the same sentence and split here:**
+>
+> | | |
+> |---|---|
+> | *"I lack the data to support this"* | **DRAFT** — unsupported. The proof is short; it may well be true. |
+> | *"the data I have refutes this"* | **BLOCKED** — refuted. The work is wrong and you can show it. |
+>
+> Unsupported is an absence; refuted is a contradiction. Treating a refuted claim as
+> merely unsupported is how a wrong statement ships with a caveat instead of being fixed.
+>
+> ⚠ **And this does not assume the work is yours.** A defect inherited in a handed-over
+> artifact is judged on the artifact's state at the seal, not on who caused it. "It was
+> already like that" changes who fixes it, never what the verdict is.
+>
 > **The test: is the problem in the work, or in the proof?** Work → BLOCKED. Proof →
 > DRAFT. **When both, BLOCKED wins** — it is the louder word, and this fails closed.
 
@@ -170,6 +184,15 @@ when two checks on the same thing disagree, do not assume the failing one is wro
 **That contradiction is the signal** — usually one of them was written against a truth that
 has since changed, and the other has been quietly holding the error in place.
 
+⚠ **The no-drive-by rule applies at EVERY granularity.** It reads as being about files
+and diffs; the failure that actually happens is smaller. You have legitimate cause to
+touch one sentence, and while rewriting it you quietly drop a clause nobody asked about.
+Same rule, one level down — **file, function, paragraph, sentence, clause.** Cause to
+touch the container is not cause to change what is inside it.
+
+The tell is that the deletion feels *tidy* rather than *requested*. **Re-read your own
+diff at the smallest unit you changed**, not at the level you were thinking in.
+
 **Kill the stale claim.** Changed how something behaves? Correct everything that
 *describes* the old behaviour — comments, instructions, a summary, a heading — in the same
 round. Two places giving different answers is worse than one wrong answer, because nothing
@@ -252,6 +275,19 @@ mandatory.)
 | **2. A fresh subagent / agent task** | Most of the contamination — no manual step where this exists (Claude Code, Cowork, Agent SDK). Two caveats: *you* write its prompt, so contamination goes down by discipline rather than being removed by the mechanism; and a subagent may run a different, often smaller model than yours, so name what it was if you can find out. |
 | **3. A new conversation**, pasted by hand | The same independence as rung 2 and the same caveat — you still write what it sees — but by hand. The fallback wherever there are no subagents. |
 | **4. Same conversation** | Nothing. This is SOLO — call it SOLO. |
+| **— Unavailable** | MULTI was right and **the environment cannot provide it.** Not a rung: a stated fact. |
+
+⚠ **Rung 2 is not available to a subagent** — subagents cannot spawn subagents, and the
+same holds for many scheduled and embedded runs. When MULTI is indicated and nothing
+above rung 4 is reachable, **do not quietly declare SOLO and hope the recommendation
+gets read.** Say it in the seal:
+
+> *"MULTI indicated; unavailable in this environment (no subagent, no second
+> conversation). Reviewed SOLO. An independent look is still owed before this is relied
+> on."*
+
+"SOLO because I chose it" and "SOLO because nothing else was reachable" are different
+claims about how much this was checked.
 
 **Rung 3 means a new conversation, not a new message.** A fresh message in this thread still
 has all of the building in its context and buys nothing. And MULTI happens *after* Steps 1-3
@@ -574,6 +610,14 @@ Not hypothetical. A trial of this skill was handed a pricing module with a docum
 30% discount cap that was never applied, a green 4/4 suite, and **two tests asserting
 the uncapped 50% discount as correct.** The natural failure is to run the suite, see
 green, and report nothing wrong.
+
+⚠ **A source's prose is part of the source.** Comments, headers, footnotes, README
+lines, the note at the top of a CSV — those carry meaning, and every automatic check
+skips them. A parser reading only the data can reconcile every figure perfectly while the
+document's stated basis is inverted by one line it never saw.
+
+So **read what a source says about itself**, not only what it tabulates. The most
+damaging errors are the ones where all the numbers are right.
 
 **When code and its tests disagree with the documented intent, count the artifacts.**
 The spec, the comments, the naming and the tests are each a vote about what the code is
