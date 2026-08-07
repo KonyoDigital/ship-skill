@@ -555,7 +555,30 @@ diary. The last three are what make it a defence, and they are the three people 
   workflow fills with confident restrictions nobody can trace, refusing things for reasons
   that were never true.
 
-### ⚠ At most ONE scar per run — usually none
+### ⚠ A long session has no seal — record at the failure, not at the end
+
+The scar block is emitted at Step 6. **A session that never reaches Step 6 never emits
+one**, and long autonomous work is exactly that: dozens of turns, continuous, no natural
+stopping point. The trigger is sound and it simply never fires.
+
+That is not hypothetical. In one continuous session four scars were earned and none
+written — a screenshot used as a visibility check that cost two wrong fixes, a missing
+`timeout` binary misread as an empty result, a commit message describing a fix that was
+not in the commit, and a feature declared broken on evidence that predated it. Every one
+qualified. The seal never came.
+
+**So when a failure costs something, write the scar THEN.** Not "at the end", because
+there may not be one. The seal still asks — that question becomes "did I record the ones
+I hit?" rather than "should I invent one now?"
+
+⚠ **And this makes the one-per-run rule a per-FAILURE rule, not a per-session cap.** Four
+genuine scars in one session is four, not one. The triage below is what keeps that honest:
+each must have cost something, be able to recur, and produce a rule you can tell whether
+you followed. A long session earns more scars because it hits more failures — capping it
+at one would discard the ones that came earliest, which are usually the ones that cost the
+most.
+
+### ⚠ At most ONE scar per DISTINCT failure — and most work produces none
 
 One careful pass over a 25-line document once produced **three scars, all with genuine
 evidence.** Each was defensible and the file was worse for them, because a `SCARS.md`
@@ -575,7 +598,7 @@ phrased as self-blame silently excludes it.
    quirk of this file is not a rule.
 3. **The rule is actionable** — you can tell whether a future run followed it.
 
-If several qualify, **write the most expensive one.** If none do, **"no scar" is the
+If several describe the SAME failure, **write the most expensive framing.** If none do, **"no scar" is the
 correct and common answer** — most good runs produce none.
 
 ### Undoing one

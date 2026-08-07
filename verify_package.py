@@ -158,7 +158,7 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "there is a verdict for 'checked thoroughly, found defects I cannot fix' — "
          "the other three assume a check you can RETRY, and looping on an unfixable "
          "defect just produces the same answer more expensively")
-    want("At most ONE scar per run" in md and "no scar" in md,
+    want("At most ONE scar per" in md and "no scar" in md,
          "scar triage ships — one careful pass over a 25-line document produced THREE "
          "scars with genuine evidence, which is how the file becomes the unread thing "
          "it warns about")
@@ -315,6 +315,14 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          f"the repetition convention ships and is USED ({md.count('+ EXCEPTION')} "
          f"passages) — the file had no way to signal 'this repeats and adds an exception' "
          f"versus 'this is emphasis', and two readers skimmed exactly those paragraphs")
+    want("A long session has no seal" in flat,
+         "the skill says record a scar AT THE FAILURE, not at the seal — a long "
+         "autonomous session never reaches Step 6, so the trigger never fires and the "
+         "loop silently stops compounding exactly when it is earning the most")
+    want("per-FAILURE rule, not a per-session cap" in flat,
+         "…and one-per-run is scoped to a distinct FAILURE, not to the session — "
+         "capping a long session at one scar discards the earliest, which are usually "
+         "the most expensive")
     want("never that it was saved" in md,
          "the seal says scar durability is UNVERIFIED and never claims it was saved — "
          "reading a file back proves the write, never that the workspace survives")
@@ -408,7 +416,7 @@ def self_test() -> int:
         ("the unfixable verdict disappears",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("UNFIXABLE HERE", "x")}),
         ("scar triage is removed",
-         lambda f: {**f, "ship-skill/SKILL.md": md.replace("At most ONE scar per run", "x")}),
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("At most ONE scar per", "x")}),
         ("the ceiling goes back to an invented number",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("do not invent one", "pick three")}),
         ("the overfitting rule is dropped",
@@ -453,6 +461,8 @@ def self_test() -> int:
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("also a false report", "x")}),
         ("the exception convention is unused",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("+ EXCEPTION", "")}),
+        ("the record-at-failure rule is dropped",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("A long session has no seal", "x")}),
         ("the scope rule loses its no-narrowing clause",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("cannot be narrowed", "may be adjusted")}),
         ("Step 1's short path drops the stakes half again",
