@@ -276,6 +276,19 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "SCARS.md carries the ratification conversation — the candidates are shapes and "
          "the loop cannot compound until a real user replaces them, so the file has to "
          "say HOW, and has to forbid Claude inventing the answers")
+    # ⚠ STRUCTURAL: a paragraph pasted BETWEEN table rows splits one table into two and
+    # orphans every row after it from its header. It happened in Rule 0 — the section that
+    # decides every verdict — and no wording check can see it, because both the table and
+    # the paragraph are individually correct.
+    _split = [b.split(chr(10))[0][:44] for b in re.split(r"\n\s*\n", md)
+              if b.lstrip().startswith("|") and re.search(r"^\|.*\n(?!\||\s*$)", b, re.M)]
+    want(not _split,
+         f"no table has prose spliced between its rows ({_split[:2] or 'none'}) — that "
+         f"orphans every row below from its header, and it happened in the verdict table")
+    want("belong to a different tool" not in flat,
+         "the stale note claiming tiny/lean/max 'control nothing here' is gone — a Meter "
+         "routing section eleven lines below explains how to route them, and two passages "
+         "giving opposite answers about the same three words is the stale-claim class")
     want("never that it was saved" in md,
          "the seal says scar durability is UNVERIFIED and never claims it was saved — "
          "reading a file back proves the write, never that the workspace survives")
@@ -400,6 +413,10 @@ def self_test() -> int:
         ("the ratification conversation is dropped",
          lambda f: {**f, "ship-skill/SCARS.md":
                     f["ship-skill/SCARS.md"].decode().replace("Ratifying your founding rules", "x").encode()}),
+        ("prose is spliced back into the verdict table",
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace(
+             "| A **required** in-scope check you could not run |",
+             "**Some prose.**\n\n| A **required** in-scope check you could not run |", 1)}),
         ("the scope rule loses its no-narrowing clause",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("cannot be narrowed", "may be adjusted")}),
         ("Step 1's short path drops the stakes half again",

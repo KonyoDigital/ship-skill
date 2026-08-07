@@ -106,15 +106,16 @@ stop.
 |---|---|
 | A known, unfixed defect **inside** declared scope | **DRAFT** — or BLOCKED if it is a real problem. Never SHIP. |
 | Something you **could not verify**, and which is **not required** for the claim you are making | SHIP is available. The boundary goes in "What was NOT checked". |
+| A **required** in-scope check you could not run | **DRAFT.** "Missing evidence is not a pass" governs — an unrunnable check does not become optional by being unrunnable. |
+| Something genuinely **outside** declared scope, **and not harmful** | SHIP is available. Name it so nobody assumes it was covered. |
+| Out of scope **and harmful if acted on** — misleading, unsafe, someone will decide from it | **BLOCKED**, whoever wrote it and whatever the scope said. |
+
 **And when a fix needs data you do not have, do not invent it.** The verdict rules below
 cover what to *report*; this covers what to *write*. **Leave the wrong claim standing and
 flag it** — a substituted plausible number is a new error with your name on it, and it is
 worse than the original because it looks checked. Delete only if leaving it would mislead
 more than removing it, and say which you chose.
 
-| A **required** in-scope check you could not run | **DRAFT.** "Missing evidence is not a pass" governs — an unrunnable check does not become optional by being unrunnable. |
-| Something genuinely **outside** declared scope, **and not harmful** | SHIP is available. Name it so nobody assumes it was covered. |
-| Out of scope **and harmful if acted on** — misleading, unsafe, someone will decide from it | **BLOCKED**, whoever wrote it and whatever the scope said. |
 
 **Scope decides whose job it is. Harm decides whether it can ship.** Those two rules
 collide on an inherited defect that is also out of scope — that is the resolution. A
@@ -673,8 +674,7 @@ against can actually occur, or you bought confidence without coverage.
 |---|---|
 | Small, clear, low stakes | One round, prove it, brief back-pass. Minutes. |
 | Normal work | Full steps, one or two rounds, SOLO. |
-| High stakes / irreversible / public | Full workflow, extra single-lens passes, MULTI at the lowest-numbered rung available, and — **unless a different model family has already reviewed it at rung 1** — say out
-loud that an independent reviewer is recommended before it goes out. |
+| High stakes / irreversible / public | Full workflow, extra single-lens passes, MULTI at the lowest-numbered rung available, and — **unless a different model family has already reviewed it at rung 1** — say out loud that an independent reviewer is recommended before it goes out. |
 
 The person can override:
 
@@ -688,14 +688,11 @@ The person can override:
 something unchecked. It reduces how *much* you examine, never how *honestly* you report
 it. If a quick pass finds something serious, stop being quick and say so.
 
-> **On `tiny`/`lean`/`max`:** those belong to a different tool, where they control how many
-> parallel agents get spawned and how long a run takes. Honouring the word here would be
-> theatre — a label controlling nothing. If someone asks for `max`, read it as "go deep" in
-> the table above and say that is what you did. Depth and independence are the things that
-> actually vary here.
-
----
-
+> **On `tiny`/`lean`/`max`:** if your host has orchestrated fleets, those words route
+> real cost — see *Meter routing* below. What they must never do is buy *less honesty*:
+> they change how much you examine and how many agents you spend, never how truthfully
+> you report it. If someone asks for `max` in a host that has no fleets, read it as "go
+> deep" in the table above and say that is what you did.
 
 ---
 

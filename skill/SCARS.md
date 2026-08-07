@@ -164,8 +164,6 @@ grown.
 
 ### max fleet on a volume arc (2026-08-07)
 
- on a volume arc (2026-08-07)
-
 ```
 WHAT BROKE   quality:max + multi-version volume brief treated as thoroughness
 COST         multi-hour run, agent ceiling, high token spend, render gate CEILING; concurrent editors thrashing version stamps
