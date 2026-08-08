@@ -18,6 +18,14 @@ back-pass → one verdict → record the scar.
 written by
 experience rather than by someone guessing in advance what would go wrong.
 
+**And while you are in there, check its shape.** If three or more entries have
+landed in the same territory — one tool, one surface, one class of mistake — that
+territory has earned a skill of its own; carve it out and delete those entries from
+`SCARS.md`. See **[Carving a new skill out of scars](#carving-a-new-skill-out-of-scars)**
+for how. This check belongs here, at the one moment the file is guaranteed to be
+open, because a `SCARS.md` nobody reads to the end has already stopped working and
+the method for fixing that was itself sitting unread near the end.
+
 ---
 
 ## What this is
