@@ -502,11 +502,13 @@ Report, briefly:
   *"PASSED in scope after 1 pass; UNFIXABLE HERE on the rest."* The pass count belongs in
   the sentence either way.
 - **Mode** — SOLO or MULTI, truthfully; if MULTI, which rung and what reviewed it.
-- **Scars** — did an existing scar apply, and did you follow it? Did this run produce a
-  new one? If yes, **print the scar block, ready to paste, including its EVIDENCE line**,
-  offer the updated file, and say durability is unverified — never that it was saved. If
-  no, say "no scar" — saying it out loud is what stops this step being quietly skipped
-  forever.
+- **Scars** — did an existing scar apply, and did you follow it? Did this run produce any
+  new ones? **Print one scar block per distinct failure, ready to paste, including its
+  EVIDENCE line**, offer the updated file, and say durability is unverified — never that
+  it was saved. The cap is one per distinct failure, not one per run: a session that
+  earned four reports four, including any you already wrote at the moment they happened —
+  this step asks whether you recorded them, not whether to invent one now. If none, say
+  "no scar" — saying it out loud is what stops this step being quietly skipped forever.
 
 Then stop. Do not append things you did not do and call them next steps unless asked.
 

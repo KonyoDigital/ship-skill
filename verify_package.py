@@ -348,7 +348,12 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "…and one-per-run is scoped to a distinct FAILURE, not to the session — "
          "capping a long session at one scar discards the earliest, which are usually "
          "the most expensive")
-    want("never that it was saved" in md,
+    # `flat`, not `md`: this is a five-word phrase in a hard-wrapped file, and it read
+    # the raw text for its whole life. It fired on a CORRECT edit whose only sin was
+    # putting the line break between "never that" and "it was saved" — the fifth
+    # instance of this class here, and the rule in GATE_RULES.md is to normalise the
+    # markup, never to reflow prose so a checker can find it.
+    want("never that it was saved" in flat,
          "the seal says scar durability is UNVERIFIED and never claims it was saved — "
          "reading a file back proves the write, never that the workspace survives")
 
@@ -392,6 +397,11 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "prints nothing on failure looks identical whether you are converging or "
          "stuck, so a stall cannot be read off it")
     return fails
+
+
+def _bytes(files: dict) -> dict:
+    """Package contents as bytes, so two dicts are comparable whatever built them."""
+    return {k: v.encode() if isinstance(v, str) else v for k, v in files.items()}
 
 
 def _zip(files: dict) -> zipfile.ZipFile:
@@ -601,8 +611,13 @@ def _mutations(md: str) -> list:
         ("SCARS.md loses the founding/learned split",
          lambda f: {**f, "ship-skill/SCARS.md":
                     f["ship-skill/SCARS.md"].decode().replace("FOUNDING RULES", "Rules").encode()}),
+        # ⚠ WAS A LITERAL, AND A REWORD TURNED IT INTO A NO-OP. The phrase is in a
+        # hard-wrapped file; a line break landing between "including its" and
+        # "EVIDENCE line" left this mutation changing nothing, and --self-test
+        # correctly reported the check as measuring nothing. Regex across the wrap.
         ("the seal stops demanding scar evidence",
-         lambda f: {**f, "ship-skill/SKILL.md": md.replace("including its EVIDENCE line", "")}),
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    re.sub(r"including its\s+EVIDENCE line", "", md)}),
     ]
 
 
@@ -612,6 +627,19 @@ def self_test() -> int:
     bad = 0
     for label, mutate in _mutations(md):
         print(f"\n  RED PROOF — {label}")
+        # A mutation that changed nothing certifies nothing — and it reports as
+        # "the gate stayed green", which sends you auditing a check that is fine.
+        # Say which one it is.
+        # ⚠ COMPARE THROUGH _bytes(). The first version of this guard compared the
+        # dicts directly; mutations return str values while `files` holds bytes, so
+        # it was never once equal and the guard was dead code that read as passing.
+        # Caught by injecting a deliberately stale mutation and watching for the new
+        # message — which did not appear.
+        if _bytes(mutate(files)) == _bytes(files):
+            print(f"  ✗✗ THE MUTATION WAS A NO-OP on {label!r} — it is stale, not the "
+                  f"check. Mutate the property, not a phrase that has been reworded.")
+            bad += 1
+            continue
         try:
             fails = check(_zip(mutate(files)))
         except Exception as e:            # a missing member is also a failure
