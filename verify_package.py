@@ -382,6 +382,11 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "the marker key COMPOSES its two signals instead of declaring a third tier with a "
          "single member — a category of one is more key than lock, and it invites tagging "
          "passages to fill it")
+    want("swapping a number for a claim does not make it true" in low,
+         "…and replacing a stale COUNT with a CLAIM is audited like the count was — the "
+         "first replacement here promised every pin named its case beside the rule, and "
+         "reading them showed about half do not. Prose does not look like arithmetic, so "
+         "the same staleness arrives wearing a different costume")
     want("trial runs" not in low.replace("repeated trials", ""),
          "the pins header carries no running TALLY of trials — the count it used to state "
          "was true when written and understated its own evidence for eight versions, so the "
@@ -738,6 +743,10 @@ def _mutations(md: str) -> list:
          lambda f: {**f, "ship-skill/SKILL.md":
                     re.sub(_flex("The two compose rather than forming a third tier"),
                            "Both together is a third signal", md)}),
+        ("swapping a number for a claim becomes self-certifying",
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    re.sub(_flex("Swapping a number for a claim does not make it true"),
+                           "A claim is safer than a count", md)}),
         ("a stale trial tally returns to the pins header",
          lambda f: {**f, "ship-skill/SKILL.md":
                     md.replace("**These are the rules that did the work**",

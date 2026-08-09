@@ -47,11 +47,17 @@ verdict is on disk. The skill makes the judgement better; the gate makes it chec
 ## The pins
 
 **These are the rules that did the work** — every one of them caught something in a real
-run, across repeated trials in more than one model family, and the case that produced each
-one is named where the rule sits. *(There was a running count of trials here. It was true
-when written and then understated its own evidence for eight versions, which is the defect
-this file has a rule about — so the claim you can check replaced the number nobody was
-re-counting.)* If you read nothing else, read these; the
+run, across repeated trials in more than one model family. The cases are recorded through
+the file; some sit beside the rule they produced and some in the section it governs.
+
+*(A running count of trials stood here. It was true when written and then understated its
+own evidence for eight versions — the stale-label defect this file has a rule about — so a
+claim you can check replaced the number nobody was re-counting. ⚠ **And the first
+replacement claim was itself too strong**: it promised each case was named beside its rule,
+and reading the pins showed about half are not. **Swapping a number for a claim does not
+make it true — audit the claim exactly as you would have re-counted the number.** That is
+the same move in a new costume, and it is easier to miss because prose does not look like
+arithmetic.)* If you read nothing else, read these; the
 rest of the file is the reasoning behind them and the cases they came from.
 
 | | |
