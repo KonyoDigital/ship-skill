@@ -365,6 +365,11 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "reported zero mismatches on a boundary that had hundreds, and what caught it was "
          "the two reviewers DISAGREEING. Agreement on a number is two claims pointing the "
          "same way, and it removes the one signal that would have forced a re-run")
+    want("the two checks are one procedure" in low,
+         "…and the two halves are joined where a reader meets them — 'no tool exposed' "
+         "and 'a tool that refused' are the same procedure at different branches, and a "
+         "reader who stopped at the first paragraph could answer 'I looked, it refused, "
+         "unavailable' in the language of a check they had not finished")
     want("one refusal is not an absent rung" in low,
          "…and one refusal does not close rung 2 — MEASURED: a subagent was refused a named "
          "reviewer and a background one, then granted an unnamed synchronous one that found a "
@@ -662,6 +667,10 @@ def _mutations(md: str) -> list:
         ("agreement between reviewers goes back to being a check",
          lambda f: {**f, "ship-skill/SKILL.md":
                     re.sub(r"two claims, not a check", "a check", md)}),
+        ("the two rung-2 checks drift back into two unrelated rules",
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    re.sub(r"[Tt]he two checks are one procedure",
+                           "these are separate matters", md)}),
         ("one refusal is allowed to close rung 2 again",
          lambda f: {**f, "ship-skill/SKILL.md":
                     re.sub(r"one refusal is not an absent rung",

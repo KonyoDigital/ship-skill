@@ -386,6 +386,13 @@ an available rung as an absent one — the same lie as an unearned MULTI, told b
 
 So: **one refusal is not an absent rung.** Vary the shape before you conclude — unnamed
 before named, synchronous before background — and if it stays refused, say what you tried.
+
+**The two checks are one procedure, and which half applies is decided by what you saw:**
+**no spawn tool exposed to you at all → that is the check, answered, and you are done**
+(the paragraph below); **a tool that exists and refused → the check is not finished, and
+you vary the shape until it is** (the paragraph above). Reading only the first half
+licenses "I looked, it refused, unavailable" — which is the reported-absent-rung failure
+wearing the language of a performed check.
 When MULTI is indicated and nothing above rung 4 is genuinely reachable, **do not quietly
 declare SOLO and hope the recommendation gets read.** Say it in the seal:
 
