@@ -387,7 +387,8 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "the forged-RED passage names the remedy that WORKS — ask the runtime for its "
          "cache path. Both obvious cures were measured failing: -B never stops a READ, and "
          "`rm -rf __pycache__` deletes nothing where sys.pycache_prefix is set, which is "
-         "the case on the Mac this was reproduced on")
+         "the case on the Mac this was reproduced on, where it is the stock interpreter's "
+         "default rather than one machine's configuration")
     want('"cannot" includes "may not."' in low,
          "the write-the-scar step treats a PERMITTED-FILES list as binding on the skill "
          "folder too — measured: of two agents scoped to two named files, one wrote its "

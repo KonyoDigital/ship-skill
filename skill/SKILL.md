@@ -343,10 +343,13 @@ machines that disagreed, which is the point.**
   covers the run from the **first** iteration with nothing cached earlier — verified in
   both directions.
 - **`rm -rf __pycache__` is not portable, and on some machines deletes nothing.** CPython
-  honours `sys.pycache_prefix`; where it is set, `__pycache__` is never created. On one
-  Mac here, `sys.pycache_prefix` is `~/Library/Caches/com.apple.python`, the cache sat at
+  honours `sys.pycache_prefix`; where it is set, `__pycache__` is never created. **Apple's
+  stock `/usr/bin/python3` sets it by default** — measured on macOS, Python 3.9.6, with
+  `PYTHONPYCACHEPREFIX` unset and nothing in the shell profile setting it:
+  `sys.pycache_prefix` came back `~/Library/Caches/com.apple.python`, the cache sat at
   `<that prefix>/<absolute source path>.pyc`, and removing `__pycache__` changed **nothing**
-  — the stale value survived all three attempts.
+  — the stale value survived all three attempts. That is not one odd machine: it is the
+  default interpreter every macOS user gets.
 
 **So ask the runtime where its cache is instead of assuming:**
 `importlib.util.cache_from_source(os.path.abspath(f))` names the exact file on every
