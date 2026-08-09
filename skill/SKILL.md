@@ -617,6 +617,20 @@ or rule drawn too wide — and a wrong rule is worse than no rule because you wi
 follow it. Without a copy it is permanent; with one, undoing it takes ten seconds.
 **Founding rules are untouched by this**; they change only by hand.
 
+**If you already edited `SCARS.md` without taking the snapshot first: LEAVE
+`SCARS.prev.md` ALONE.** It is now one version behind instead of zero, and one
+behind is a smaller loss than none. Do NOT "fix" it by copying the current file
+over it — that makes the two identical, the diff empty, and destroys the record
+of the exact edit you just made. `prev` exists to answer *what changed*; a `prev`
+equal to `current` cannot answer anything, so the repair is strictly worse than
+the mistake.
+
+This happened on 2026-08-09: a run added this very rule, noticed it had edited
+`SCARS.md` without snapshotting first, correctly flagged its own new rule failing
+on its first live test — and then prescribed "one `cp` fixes it", which would have
+wiped a working 39-line diff. Flagging it was right. The remedy was not. Take the
+snapshot next time; do not backfill it.
+
 ### Getting the scar into the file
 
 **Always do all three of these, in order. Do not try to work out which case you are in.**
