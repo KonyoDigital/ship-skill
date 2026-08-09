@@ -107,10 +107,10 @@ The seal has to say which. *"SOLO" is an honest answer; an unearned "MULTI" is n
 
 ## Verifying the package
 
-`verify_package.py` gates the download on **71 checks** — the shape Desktop rejects, the
+`verify_package.py` gates the download on **72 checks** — the shape Desktop rejects, the
 1024-char description limit, that the seal still demands the mode, the stop reason and the
 scar evidence, and that the downloadable `.skill` still matches the `skill/` folder it was
-built from. `--self-test` mutates the package and this README **46 ways** and proves the
+built from. `--self-test` mutates the package and this README **47 ways** and proves the
 gate goes red on every one, because a gate nobody has seen fail is not known to be
 measuring anything.
 
@@ -166,15 +166,18 @@ earned its own skill — move the rules in as a procedure, keep each one's origi
 them from `SCARS.md`.
 
 [`GATE_RULES.md`](GATE_RULES.md) is that, done for real. Four scars landed on one thing —
-`verify_package.py` **failing correct work** — and became six rules, each recording the
-scar that produced it: check the property not the phrasing, normalise markup before
-matching prose, a mutation that no-ops certifies nothing, ignore quoted mentions, assert
-your own preprocessing loses nothing, and count promises structurally.
+`verify_package.py` **failing correct work** — and it has kept growing as the gate kept
+teaching, to **12 rules**, each recording the scar that produced it. Among them: check the
+property not the phrasing; normalise markup before matching prose; a mutation that no-ops
+— or fires on one instance of two — certifies nothing; a syntax check is not a runtime
+check; a negation inside `eval` passes unconditionally; and two rules can overlap so that
+one becomes unobservable.
 
-Five of the six were the *instrument*, not the subject. Which is the rule under all of
+Nearly all of them were the *instrument*, not the subject. Which is the rule under all of
 them: **when a gate fails, ask whether the work is wrong or the checker is.** Fixing the
 document to satisfy a broken gate is the worst available outcome — you damage correct
-work *and* keep the broken gate.
+work *and* keep the broken gate. **That count is itself checked** against the headings in
+the file, because a number nobody re-measures is how this page got three of them wrong.
 
 ## Credits
 

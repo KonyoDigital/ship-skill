@@ -2,8 +2,9 @@
 
 **This file is a carved skill.** Four scars landed in one territory, which is the
 trigger the skill names, so the rules moved out of scattered comments and into their own
-place. Each one below records the scar that produced it, because a rule whose origin is
-lost gets deleted by the first person tidying up — and then it happens again.
+place — and it has kept growing as the gate kept teaching, to **12**. Each one below
+records the scar that produced it, because a rule whose origin is lost gets deleted by
+the first person tidying up — and then it happens again.
 
 Every one of these came from `verify_package.py` **failing correct work**. That is the
 failure mode that matters here: a gate that cries wolf gets switched off, and then it
@@ -175,10 +176,38 @@ run is contaminated either way.
 exists. What survives contamination is machine-checked evidence — mutation results, a
 suite run, an independent reviewer that never saw the key.
 
+## 12. Perturb exactly one side, in every instance
+
+Rule 3 says a mutation that changes *nothing* certifies nothing. Its two siblings are
+worse, because both change something and still certify nothing: a mutation that hits
+**one of several instances** of a property, and a mutation that moves **both sides of a
+comparison** at once.
+
+```python
+md.replace("One refusal is not…", "…")          # ✗ one of two instances; the check
+                                                #   reads lowercased text and finds the other
+re.sub(r"one refusal is not…", "…", md, re.I)   # ✓ every instance of the property
+
+charge(i, d) <= charge(i, d)                    # ✗ sabotage moves both sides together
+refund(i, d) <= charge(i, d)                    # ✓ the sabotage can separate them
+```
+
+Both failures **report as a green gate**, which sends you auditing a check that is fine.
+So when a red proof does not go red, **suspect the mutation before the check** — and make
+the harness say which it is rather than leaving you to guess.
+
+> **Scar, twice in one session.** A rule stated twice — once sentence-initial — was
+> mutated by a case-sensitive `replace`; the surviving capitalised instance satisfied the
+> check, and `--self-test` reported *the check* as measuring nothing. Separately, a trial
+> run's own sabotage flipped one discount variable that appeared on **both** sides of an
+> assertion, reducing it to `x <= x`; the harness certified that test as load-bearing
+> while it could not detect the 820 of 1681 discount pairs that actually overpaid.
+
 ---
 
-## The rule under all eleven
+## The rule under all twelve
 
-**When a gate fails, ask whether the subject is wrong or the instrument is.** Six of
-these seven were the instrument. Fixing the document to satisfy a broken checker is the
+**When a gate fails, ask whether the subject is wrong or the instrument is.** Of these
+12, all but a handful were the instrument — and rules 3 and 12 are that same question
+asked one level down, about the mutation rather than the check. Fixing the document to satisfy a broken checker is the
 worst available outcome: you damage correct work *and* keep the broken gate.

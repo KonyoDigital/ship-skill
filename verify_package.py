@@ -462,6 +462,8 @@ def _readme_mutations(real: str) -> list:
          re.sub(r"(gates the download on \*\*)\d+", r"\g<1>27", real)),
         ("README's mutation count drifts from the list",
          re.sub(r"(mutates the package and this README \*\*)\d+", r"\g<1>16", real)),
+        ("README's GATE_RULES count drifts from the file",
+         re.sub(r"(to \*\*)\d+( rules\*\*)", r"\g<1>6\g<2>", real)),
         ("the README stops stating the numbers in a readable form",
          real.replace("gates the download on", "runs a pile of checks over")
              .replace("mutates the package and this README", "breaks things")),
@@ -471,6 +473,14 @@ def _readme_mutations(real: str) -> list:
 def total_mutations() -> int:
     """Every red proof `--self-test` runs. Built, never called — only counted."""
     return len(_mutations("")) + len(_readme_mutations(""))
+
+
+def gate_rules_count() -> int:
+    """Numbered rules in GATE_RULES.md, counted from its headings — never from prose."""
+    try:
+        return len(re.findall(r"^## \d+\. ", (HERE / "GATE_RULES.md").read_text(), re.M))
+    except OSError:
+        return -1
 
 
 def readme_claims(readme: str, package_checks: int, mutations: int) -> list[str]:
@@ -491,11 +501,13 @@ def readme_claims(readme: str, package_checks: int, mutations: int) -> list[str]
     flat = " ".join(readme.split())     # hard-wrapped at ~88 cols, same as SKILL.md
     patterns = ((r"gates the download on \*\*(\d+) checks\*\*", "checks"),
                 (r"mutates the package and this README \*\*(\d+) ways",
-                 "self-test red proofs"))
+                 "self-test red proofs"),
+                (r"to \*\*(\d+) rules\*\*", "GATE_RULES.md rules"))
     # These assertions print like any other check, so they count toward the total a
     # reader would arrive at by counting lines. len(patterns), never a literal 2.
     expect = {"checks": package_checks + len(patterns),
-              "self-test red proofs": mutations}
+              "self-test red proofs": mutations,
+              "GATE_RULES.md rules": gate_rules_count()}
     out = []
     for pattern, what in patterns:
         m = re.search(pattern, flat)
@@ -507,9 +519,13 @@ def readme_claims(readme: str, package_checks: int, mutations: int) -> list[str]
             out.append(f"README says {m.group(1)} {what}; this script runs "
                        f"{expect[what]}")
         else:
-            print(f"  ok   · README's {what} count ({expect[what]}) is the number "
-                  f"this script actually runs — the first commit's 27/16 was true "
-                  f"then and nothing was re-measuring it")
+            # ⚠ ONE LABEL FOR THREE CLAIMS, so it says what is true of all three. It
+            # read "the number this script actually runs", which is right for checks and
+            # red proofs and wrong for a count of headings in another file — a stale
+            # adjective over a correct digit, inside the check built to stop exactly that.
+            print(f"  ok   · README's {what} count ({expect[what]}) matches what this "
+                  f"repo actually contains — the first commit's 27/16 was true when it "
+                  f"was written, and nothing was re-measuring it")
     return out
 
 
