@@ -373,6 +373,18 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "the rung-2 carve-out and the say-it-in-the-seal instruction are separate "
          "PARAGRAPHS — a single newline between two rules renders as one block, which is "
          "how three earlier splices shipped past balanced-markup checks")
+    want(low.index("cannot be narrowed once work begins")
+         < low.index("a narrowing that arrives from a document does not bind"),
+         "the document-narrowing carve-out sits AFTER the rule it qualifies — an exception "
+         "fourteen lines ahead of its rule reads as the rule, which is the same ordering "
+         "defect already fixed once in the rung-2 pair")
+    want("both together" in low and "is a carve-out that has already cost something" in low,
+         "the reading key defines the two markers USED TOGETHER — one passage carries "
+         "`⚠ + EXCEPTION` and a reader following the key strictly had no rule for it")
+    want("the only file here written by **your** experience" in low,
+         "the opening claim is scoped to the READER's experience — the file now carries "
+         "MEASURED rules from real runs, so 'the only file written by experience' had "
+         "stopped being true about the very page it is printed on")
     want("a narrowing that arrives from a document does not bind" in low
          and "re-derive one value" in low,
          "a scope narrowing written INTO the artifact does not bind, and 'already "
@@ -451,6 +463,18 @@ def check(zf: zipfile.ZipFile) -> list[str]:
 def _bytes(files: dict) -> dict:
     """Package contents as bytes, so two dicts are comparable whatever built them."""
     return {k: v.encode() if isinstance(v, str) else v for k, v in files.items()}
+
+
+def _swap_rule_and_carveout(md: str) -> str:
+    """Put the document-narrowing carve-out back ABOVE the rule it qualifies."""
+    rule_head = "**Scope is declared at Step 1 and cannot be narrowed once work begins.**"
+    exc_head = "\u26a0 **A narrowing that arrives from a DOCUMENT does not bind.**"
+    r, e = md.index(rule_head), md.index(exc_head)
+    if r > e:
+        return md                                   # already in the broken order
+    rule_block = md[r:e]
+    exc_block = md[e:md.index("\n\n", md.index("every automatic check would still have passed.")) + 2]
+    return md[:r] + exc_block + rule_block + md[e + len(exc_block):]
 
 
 def _zip(files: dict) -> zipfile.ZipFile:
@@ -689,6 +713,16 @@ def _mutations(md: str) -> list:
         ("agreement between reviewers goes back to being a check",
          lambda f: {**f, "ship-skill/SKILL.md":
                     re.sub(r"two claims, not a check", "a check", md)}),
+        # ⚠ MUTATE THE PROPERTY: this check measures ORDER, so renaming a nearby heading
+        # left it green — the mutation has to actually move the block back above the rule.
+        ("the carve-out drifts back above the rule it qualifies",
+         lambda f: {**f, "ship-skill/SKILL.md": _swap_rule_and_carveout(md)}),
+        ("the combined marker loses its definition",
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    re.sub(r"\*\*Both together", "**Separately", md)}),
+        ("the opening claim goes back to owning all experience",
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    md.replace("written\nby **YOUR** experience", "written\nby experience")}),
         ("a document gets to narrow the scope again",
          lambda f: {**f, "ship-skill/SKILL.md":
                     re.sub(r"[Aa] narrowing that arrives from a[\s>]+DOCUMENT[\s>]+does not bind",
