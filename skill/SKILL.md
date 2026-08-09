@@ -133,8 +133,8 @@ stop.
 | Something genuinely **outside** declared scope, **and not harmful** | SHIP is available. Name it so nobody assumes it was covered. |
 | Out of scope **and harmful if acted on** — misleading, unsafe, someone will decide from it | **BLOCKED**, whoever wrote it and whatever the scope said. |
 
-**And when a fix needs data you do not have, do not invent it.** The verdict rules below
-cover what to *report*; this covers what to *write*. **Leave the wrong claim standing and
+**And when a fix needs data you do not have, do not invent it.** The verdict table above
+covers what to *report*; this covers what to *write*. **Leave the wrong claim standing and
 flag it** — a substituted plausible number is a new error with your name on it, and it is
 worse than the original because it looks checked. Delete only if leaving it would mislead
 more than removing it, and say which you chose.
@@ -169,6 +169,13 @@ reading, and carry both to the seal: *"I read X as A; if you meant B, this needs
 redoing."* A question answered by assumption looks identical to a question never
 asked, and the narrower reading fails safe — it under-delivers visibly rather than
 over-reaching invisibly.
+
+**This is about ambiguity of *scope or interpretation*, not about facts you have not checked
+yet.** "Does this figure match the source?" has one answer and no narrow reading — that is
+not an ambiguity, it is the work; go and check it. Reserve the narrower-reading move for
+questions like *what counts as in scope*, *how far does "fix" go*, *which of two readings of
+the request did they mean* — where picking wrong changes what you deliver rather than what
+you conclude.
 
 **Say what is in scope and what is not, explicitly.** That declaration is what Rule 0's
 verdict table reads later, and it cannot be narrowed once you start — so draw it now,
@@ -225,8 +232,9 @@ instance, or list the ones you deliberately left and why. Fixing only the one in
 you is how the same mistake ships three times.
 
 ⚠ **Sweep and no-drive-by are not in conflict — the line between them is the DEFECT
-CLASS.** Fixing the same defect everywhere it occurs is *finishing the ask*, even in
-files nobody named. Fixing a *different* thing you noticed on the way is a drive-by.
+CLASS.** Fixing the same defect everywhere it occurs is *finishing the ask*, including in
+files nobody named **but that you were given permission to touch** (the exception below
+draws that second line). Fixing a *different* thing you noticed on the way is a drive-by.
 
 > One bug reported → sweep every instance **of that bug**. One bug reported → do not
 > also rename the variable, reformat the file, or fix the unrelated thing two lines down.
@@ -351,14 +359,17 @@ test.
 
 *(Rung 1 is the strongest and rung 4 is none at all, so "highest rung" would read as doing nothing. Lower number, stronger review.)*
 
-(Choosing between SOLO and MULTI is the paragraph above; this table is only about how to run
-a MULTI you have already decided on. Having a subagent available does not make MULTI
-mandatory.)
+⚠ **Having a reviewer available does not make MULTI mandatory, and "unavailable" is not a
+free upgrade.** Choosing between SOLO and MULTI is the paragraph above — stakes decide it.
+This table is only about how to run a MULTI you have already decided on. On low-stakes work
+say plainly **"SOLO — by choice"**; do not reach for the unavailable-MULTI sentence below
+because it sounds more rigorous than it was. Claiming MULTI was indicated when the stakes
+never indicated it is the same false report as claiming a check you did not run.
 
 | Rung | What it removes |
 |---|---|
 | **1. A different model family** | Contamination, and blind spots that sit in different places. The strongest MULTI. Name the model. |
-| **2. A fresh subagent / agent task** | Most of the contamination, where you can spawn one — **check, do not assume: a subagent usually cannot spawn a subagent, so this rung is often unavailable to the very run that needs it.** Two caveats even when it works: *you* write the prompt, so contamination drops by discipline rather than by mechanism; and it may run a different, often smaller model, so name what it was. |
+| **2. A fresh subagent / agent task** | Most of the contamination, where you can spawn one — **check whether you can, do not assume you can: a subagent normally cannot spawn a subagent, so this rung is usually closed to the very run that needs it.** Two caveats even when it works: *you* write the prompt, so contamination drops by discipline rather than by mechanism; and it may run a different, often smaller model, so name what it was. |
 | **3. A new conversation**, pasted by hand | The same independence as rung 2 and the same caveat — you still write what it sees — but by hand. The fallback wherever there are no subagents. |
 | **4. Same conversation** | Nothing. This is SOLO — call it SOLO. |
 | **— Unavailable** | MULTI was right and **the environment cannot provide it.** Not a rung: a stated fact. |
@@ -414,8 +425,15 @@ red to green, a reviewer who can object. If nothing between passes could alter w
 do next, that is one-shot work: do it once, well, seal it. Iterating without new
 information produces the same answer at rising cost and looks like diligence.
 
-Then stop for one of
-exactly four reasons, and **say which**:
+Then stop for one of these four reasons, and **say which**.
+
+**+ EXCEPTION — a run can end on two of them at once, and only one SHAPE of pairing is legal:**
+**UNFIXABLE HERE alongside one of the other three.** It describes a *different set of items*
+from the other words, so it stacks; PASSED, CEILING and STALLED all describe the same
+retry loop and cannot co-occur with each other. Name the retryable outcome first, then the
+residue: *"PASSED in scope after 1 pass; UNFIXABLE HERE on the two items named below"* — or
+*"CEILING after 3 passes; UNFIXABLE HERE on the rest."* Reporting only the first half is
+flattering; reporting only UNFIXABLE HERE buries work that actually succeeded.
 
 > **Do not loop on confidence. Loop on evidence.** *"I think it's right now"* is not a
 > stop condition — the tests pass, the schema validates, the citations resolve, the
@@ -431,9 +449,20 @@ exactly four reasons, and **say which**:
 
 **+ EXCEPTION — UNFIXABLE HERE is neither a failure nor a stall.** The other three assume a check
 you can retry; this is work that is finished as far as you can take it, and looping on
-it just produces the same answer more expensively. It routes to **DRAFT** — the proof is
-incomplete, the work is sound — unless a defect makes the output actively misleading,
-which is BLOCKED.
+it just produces the same answer more expensively.
+
+**Which verdict it routes to depends on where the residue sits — read it off Rule 0's scope
+table, not off this word:**
+
+| The unfixable item is… | Verdict |
+|---|---|
+| **inside** scope, and only the *proof* is missing | **DRAFT** — the work is sound, the evidence is short. |
+| **inside** scope, and the *work* is wrong | **BLOCKED** — Rule 0's test governs: problem in the work → BLOCKED, and when both, BLOCKED wins. Unfixable does not soften it. |
+| **outside** scope and harmless | **SHIP is still available.** Name it; it does not block. UNFIXABLE HERE is then a note about the residue, not a downgrade. |
+| harmful if acted on, in scope or out | **BLOCKED**, whoever owns it. |
+
+Reaching for DRAFT because the word UNFIXABLE HERE appears in your seal, when every item it
+covers is out of scope and harmless, is the defensive downgrade Rule 0 opens by forbidding.
 
 **CEILING and STALLED** both mean "not fixed", and the difference is what they license. **Both stop
 the loop and get reported** — the limit is the discipline, and drifting past it is
@@ -467,8 +496,11 @@ Report, briefly:
   sat outside the scope declared at Step 1. This section explains a SHIP; it never
   rescues one.
 - **How to undo it** — if it is that kind of work.
-- **Stopped because** — PASSED / CEILING / STALLED / UNFIXABLE HERE, after how many
-  passes. All four, or the fourth is a rule the seal cannot report.
+- **Stopped because** — PASSED / CEILING / STALLED / UNFIXABLE HERE, after how many passes.
+  **All four are reportable words, and UNFIXABLE HERE may pair with one of the other three**
+  (see Step 5): a run whose in-scope work passed while defects it cannot fix remain says
+  *"PASSED in scope after 1 pass; UNFIXABLE HERE on the rest."* The pass count belongs in
+  the sentence either way.
 - **Mode** — SOLO or MULTI, truthfully; if MULTI, which rung and what reviewed it.
 - **Scars** — did an existing scar apply, and did you follow it? Did this run produce a
   new one? If yes, **print the scar block, ready to paste, including its EVIDENCE line**,
@@ -492,7 +524,7 @@ may retract your own seal from earlier in the same run.
 Everything above improves *this* work. This step is the only one that improves the **next**
 work. A conversation ends and everything it learned dies with it; notes don't help, because
 nobody re-reads their notes before starting. **A scar is a mistake converted into a rule that
-is re-read at the start of every run** — Step 0, from the file, not remembered from a
+is re-read at the start of every run** — before Step 1, from the file, not remembered from a
 conversation.
 
 ⚠ Nothing "loads itself." The only mechanism is that you read `SCARS.md` before Step 1,
@@ -593,15 +625,20 @@ evidence.** Each was defensible and the file was worse for them, because a `SCAR
 nobody reads has failed exactly the way notes fail.
 
 **A scar is about the RUN, not about you.** The trigger is not "I made a mistake", it is
-"this run hit something that will happen again". Finding a trap in someone else's
-document that nearly worked is a scar; you did not cause it and that is irrelevant.
-Checking work you did not write is the most common real use of this skill, and a trigger
-phrased as self-blame silently excludes it.
+"this run hit something that will happen again". Finding a trap in someone else's document
+is a scar when it nearly worked — **and "nearly" has to be earned: name what it would have
+cost had you not caught it, and why the next ordinary check would not have.** A trap the
+following step would have caught anyway is a story, not a scar. You did not cause it and
+that is irrelevant; checking work you did not write is the most common real use of this
+skill, and a trigger phrased as self-blame silently excludes it.
 
 **Record one only if it clears all three:**
 
 1. **It cost something** — rework, a wrong answer that got out, real time. "I noticed a
-   thing" is not a scar.
+   thing" is not a scar. **The cost may be in someone else's artifact rather than your
+   own** — a wrong figure already sitting in a client file is a real cost — but then name
+   *whose* cost it was and how you know, because "a cost" is the easiest of the three
+   gates to talk yourself past when you would like a scar to exist.
 2. **It would recur** — the same shape can happen again on different work. A one-off
    quirk of this file is not a rule.
 3. **The rule is actionable** — you can tell whether a future run followed it.
@@ -611,10 +648,26 @@ correct and common answer** — most good runs produce none.
 
 ### Undoing one
 
-**Copy `SCARS.md` to `SCARS.prev.md` before adding a scar** — or just keep the old text
-somewhere for a day. A lesson from one confusing afternoon can be **wrong** — wrong cause,
-or rule drawn too wide — and a wrong rule is worse than no rule because you will actually
-follow it. Without a copy it is permanent; with one, undoing it takes ten seconds.
+**Copy `SCARS.md` to `SCARS.prev.md` before you change it — adding a scar OR removing one**
+— or just keep the old text somewhere for a day. A lesson from one confusing afternoon can
+be **wrong** — wrong cause, or rule drawn too wide — and a wrong rule is worse than no rule
+because you will actually follow it. Without a copy it is permanent; with one, undoing it
+takes ten seconds.
+
+⚠ **Deletion is the operation that most needs the backup, and the one people skip it on.**
+Adding a bad scar is recoverable by deleting it; deleting a good scar loses the evidence that
+produced it, and nothing left in the file will tell you it was ever there. **Refresh
+`SCARS.prev.md` from the current `SCARS.md` immediately before every change** — if it holds
+some older state, it is not a backup, it is a second stale copy.
+
+And know what that buys: **one deep.** The next change overwrites it, so `SCARS.prev.md`
+protects the most recent edit and nothing before it. The durable copy of a scar is the block
+printed in the seal, which is why Step 6 asks for it whether or not the file write worked.
+
+**Removing one** is the same three steps in reverse: refresh the backup, delete the block,
+and say in the seal *which* scar you removed and why — a scar that vanishes with no record
+looks identical to one that was never written.
+
 **Founding rules are untouched by this**; they change only by hand.
 
 **If you already edited `SCARS.md` without taking the snapshot first: LEAVE
@@ -633,7 +686,10 @@ snapshot next time; do not backfill it.
 
 ### Getting the scar into the file
 
-**Always do all three of these, in order. Do not try to work out which case you are in.**
+**When this run produced a scar, do all three of these, in order — and do not try to work
+out which environment you are in.** The "do not branch" instruction is about the
+*environment*, never about whether a scar exists: if there is no scar, there is nothing to
+print, write or caveat, so say "no scar" in the seal and skip to the next section.
 
 Three earlier versions of this passage asked you to classify the environment first —
 local files, synced-and-ephemeral, or write-fails — and pick a branch. Two independent

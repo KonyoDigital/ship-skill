@@ -14,6 +14,19 @@ package is rejected (or worse, accepted and subtly broken) only at upload:
 
 `--self-test` proves each check can FAIL. A gate nobody has seen go red is not
 known to be measuring anything.
+
+⚠ IT GRADES `skill/`, NOT THE COMMITTED ZIP — AND THAT DISTINCTION IS A SCAR.
+For its whole life this script opened `ship-skill.zip` and never read `skill/*.md`.
+Nothing rebuilt the zip, so the gate graded whatever had last been packaged by hand.
+A 108-line merge into `skill/SKILL.md` and a REAL scar injected into `skill/SCARS.md`
+both passed with 65 green checks and `PACKAGE OK`, because the gate had not read one
+byte of either. The checks were all correct; the wiring to the source was missing.
+
+So the package is now BUILT from `skill/` on every run and the fresh build is what
+gets graded. The committed `ship-skill.zip` / `.skill` are build artifacts, and a
+drift between them and `skill/` is itself a failure — `--build` rewrites them.
+The general form: when a gate reads an artifact, something has to prove the artifact
+is the thing you changed, or the gate is measuring the last person's work.
 """
 from __future__ import annotations
 import io, re, sys, zipfile
@@ -21,6 +34,15 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 LIMIT = 1024
+PKG = "ship-skill"
+ARTIFACTS = ("ship-skill.zip", "ship-skill.skill")
+
+
+def source_files() -> dict:
+    """The package as `skill/` currently defines it — the thing being shipped."""
+    src = HERE / "skill"
+    return {f"{PKG}/{p.name}": p.read_bytes()
+            for p in sorted(src.iterdir()) if p.suffix == ".md"}
 
 
 def check(zf: zipfile.ZipFile) -> list[str]:
@@ -338,7 +360,14 @@ def check(zf: zipfile.ZipFile) -> list[str]:
     # wording check finds, exactly like "the last two" over three bullets. Counting
     # table rows as well as bullets is what makes this catch the class rather than the
     # one instance that happened to be noticed.
-    for _m in re.finditer(r"exactly (two|three|four|five|six) reasons", md):
+    # ⚠ MATCH THE IDEA, NOT ONE WORDING. This read `exactly (two|…) reasons` and the
+    # sentence was later reworded to "one of these four reasons" — so the regex matched
+    # nothing, the loop never ran, and the check passed having counted no rows at all.
+    # It stayed green for every run in between; only --self-test caught it, because a
+    # mutation that could not turn it red is the only visible symptom a vacuous check
+    # has. A check keyed to an exact phrase measures that phrase, not the rule.
+    for _m in re.finditer(r"(?:exactly|of these|these) "
+                          r"(two|three|four|five|six) reasons", md):
         _seg = md[_m.end():_m.end() + 1600]
         _rows = len(re.findall(r"^\| \*\*[A-Z]", _seg, re.M))
         if _rows and _rows != _w[_m.group(1)]:
@@ -370,9 +399,38 @@ def _zip(files: dict) -> zipfile.ZipFile:
     return zipfile.ZipFile(b)
 
 
+def stale_artifacts() -> list[str]:
+    """Which committed artifacts no longer match `skill/`.
+
+    Reported as a FAILURE rather than fixed silently: the zip is what a stranger
+    downloads, and a rebuild that happens as a side effect of verifying is a rebuild
+    nobody reviewed.
+    """
+    want, drifted = source_files(), []
+    for name in ARTIFACTS:
+        path = HERE / name
+        if not path.exists():
+            drifted.append(f"{name} (missing)")
+            continue
+        with zipfile.ZipFile(path) as z:
+            have = {n: z.read(n) for n in z.namelist() if not n.endswith("/")}
+        if have != want:
+            only = sorted(set(want) ^ set(have))
+            diff = only or [k for k in want if have.get(k) != want[k]]
+            drifted.append(f"{name} ({', '.join(diff)})")
+    return drifted
+
+
+def build() -> None:
+    for name in ARTIFACTS:
+        with zipfile.ZipFile(HERE / name, "w", zipfile.ZIP_DEFLATED) as z:
+            for k, v in source_files().items():
+                z.writestr(k, v)
+        print(f"  built {name}")
+
+
 def self_test() -> int:
-    good = zipfile.ZipFile(HERE / "ship-skill.zip")
-    files = {n: good.read(n) for n in good.namelist() if not n.endswith("/")}
+    files = source_files()
     md = files["ship-skill/SKILL.md"].decode()
     bad = 0
     for label, mutate in [
@@ -422,7 +480,7 @@ def self_test() -> int:
         ("the overfitting rule is dropped",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("tune against the check", "x")}),
         ("a verdict count stops matching its table",
-         lambda f: {**f, "ship-skill/SKILL.md": md.replace("exactly four reasons", "exactly three reasons")}),
+         lambda f: {**f, "ship-skill/SKILL.md": md.replace("these four reasons", "these three reasons")}),
         ("retraction is dropped — the system can only promote",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("burndown chart with extra steps", "x")}),
         ("the persuasion-not-enforcement boundary is hidden",
@@ -496,8 +554,18 @@ if __name__ == "__main__":
         print("EVERY CHECK PROVEN RED." if not n
               else f"{n} CHECK(S) COULD NOT BE MADE TO FAIL — they measure nothing")
         raise SystemExit(1 if n else 0)
-    print("ship-skill.zip")
-    f = check(zipfile.ZipFile(HERE / "ship-skill.zip"))
+    if "--build" in sys.argv:
+        build()
+        raise SystemExit(0)
+
+    # Grade skill/ — the source. Never the committed zip: that is what let a 108-line
+    # merge pass unread.
+    print(f"skill/  ({', '.join(sorted(p.name for p in (HERE / 'skill').iterdir()))})")
+    f = check(_zip(source_files()))
+    for d in stale_artifacts():
+        f.append(d)          # one entry per artifact, so the count matches the lines
+        print(f"  FAIL · {d} no longer matches skill/ — the file a stranger "
+              f"downloads is not the file that was just graded. Run --build.")
     print()
     print("PACKAGE OK" if not f else f"{len(f)} FAILURE(S)")
     raise SystemExit(1 if f else 0)

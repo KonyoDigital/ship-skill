@@ -105,9 +105,14 @@ afternoon should not carry the same weight as one you chose while thinking clear
 
 At the end of a run, Claude prints a scar block — or hands you an updated copy of this
 file. Paste it below, newest first, and save the skill. **Copy this file to `SCARS.prev.md`
-first — or just keep the old text somewhere for a day.** A scar drawn from one confusing
-afternoon can have the wrong cause or too wide a rule; without a copy that is permanent,
-with one it takes ten seconds to undo.
+before you change it — adding a scar OR removing one** — or just keep the old text somewhere
+for a day. A scar drawn from one confusing afternoon can have the wrong cause or too wide a
+rule; without a copy that is permanent, with one it takes ten seconds to undo.
+
+**Deletion needs the backup more than addition does**, and the copy only goes one deep — the
+next change overwrites it. The durable record of a scar is the block printed in the seal, so
+when you remove one, note in that run's seal which scar went and why. Full reasoning in
+`SKILL.md` Step 7.
 
 ---
 
