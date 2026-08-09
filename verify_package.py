@@ -378,9 +378,14 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "the document-narrowing carve-out sits AFTER the rule it qualifies — an exception "
          "fourteen lines ahead of its rule reads as the rule, which is the same ordering "
          "defect already fixed once in the rung-2 pair")
-    want("both together" in low and "is a carve-out that has already cost something" in low,
-         "the reading key defines the two markers USED TOGETHER — one passage carries "
-         "`⚠ + EXCEPTION` and a reader following the key strictly had no rule for it")
+    want("the two compose rather than forming a third tier" in low,
+         "the marker key COMPOSES its two signals instead of declaring a third tier with a "
+         "single member — a category of one is more key than lock, and it invites tagging "
+         "passages to fill it")
+    want("trial runs" not in low.replace("repeated trials", ""),
+         "the pins header carries no running TALLY of trials — the count it used to state "
+         "was true when written and understated its own evidence for eight versions, so the "
+         "checkable claim replaced the number nobody was re-counting")
     want("the only file here written by **your** experience" in low,
          "the opening claim is scoped to the READER's experience — the file now carries "
          "MEASURED rules from real runs, so 'the only file written by experience' had "
@@ -463,6 +468,18 @@ def check(zf: zipfile.ZipFile) -> list[str]:
 def _bytes(files: dict) -> dict:
     """Package contents as bytes, so two dicts are comparable whatever built them."""
     return {k: v.encode() if isinstance(v, str) else v for k, v in files.items()}
+
+
+def _flex(phrase: str) -> str:
+    """A regex matching `phrase` across any wrap, including inside a blockquote.
+
+    ⚠ SEVENTH INSTANCE OF THIS CLASS IN ONE SESSION. Every hand-written variant of this
+    guessed WHERE the line would break — `\s+` between two particular words — and the file
+    rewrapped somewhere else, leaving a mutation that silently matched nothing. The gate
+    then reported the CHECK as measuring nothing. Do not guess the break; tolerate every
+    gap, and remember a blockquote continuation carries "> ".
+    """
+    return r"[\s>]+".join(re.escape(w) for w in phrase.split())
 
 
 def _swap_rule_and_carveout(md: str) -> str:
@@ -717,9 +734,14 @@ def _mutations(md: str) -> list:
         # left it green — the mutation has to actually move the block back above the rule.
         ("the carve-out drifts back above the rule it qualifies",
          lambda f: {**f, "ship-skill/SKILL.md": _swap_rule_and_carveout(md)}),
-        ("the combined marker loses its definition",
+        ("the marker key declares a third tier again",
          lambda f: {**f, "ship-skill/SKILL.md":
-                    re.sub(r"\*\*Both together", "**Separately", md)}),
+                    re.sub(_flex("The two compose rather than forming a third tier"),
+                           "Both together is a third signal", md)}),
+        ("a stale trial tally returns to the pins header",
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    md.replace("**These are the rules that did the work**",
+                               "Five trial runs, three model families. **These are the rules that did the work**")}),
         ("the opening claim goes back to owning all experience",
          lambda f: {**f, "ship-skill/SKILL.md":
                     md.replace("written\nby **YOUR** experience", "written\nby experience")}),

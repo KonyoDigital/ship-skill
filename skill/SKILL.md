@@ -46,8 +46,12 @@ verdict is on disk. The skill makes the judgement better; the gate makes it chec
 
 ## The pins
 
-Five trial runs, three model families. **These are the rules that did the work** — every
-one of them caught something in a real run. If you read nothing else, read these; the
+**These are the rules that did the work** — every one of them caught something in a real
+run, across repeated trials in more than one model family, and the case that produced each
+one is named where the rule sits. *(There was a running count of trials here. It was true
+when written and then understated its own evidence for eight versions, which is the defect
+this file has a rule about — so the claim you can check replaced the number nobody was
+re-counting.)* If you read nothing else, read these; the
 rest of the file is the reasoning behind them and the cases they came from.
 
 | | |
@@ -70,9 +74,10 @@ marks a passage that repeats a rule you have already read AND changes it** — a
 a boundary, a case where the rule inverts. Those are the only repetitions you cannot
 skim; anything else restating a pin is emphasis and can be skipped on a second pass. Two
 readers reported skimming exactly these paragraphs and missing the sentence they needed,
-because nothing distinguished the two kinds. **Both together — `⚠ + EXCEPTION` — is a
-carve-out that has already cost something**, and it is the one combination you should
-never skim: the rule above it is not wrong, and it does not cover the case being named.
+because nothing distinguished the two kinds. **The two compose rather than forming a third
+tier: a `⚠` on an EXCEPTION means the carve-out itself has already cost something.** Rare —
+one passage today — and the one combination never to skim: the rule above it is not wrong,
+and it does not cover the case being named.
 
 ---
 
