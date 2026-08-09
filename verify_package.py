@@ -360,6 +360,11 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "rung 2's 'check whether you can' is satisfiable from inside a run — reporting "
          "what your toolset exposes IS the check, and a live reviewer that could only "
          "prove absence read the instruction as impossible and skipped it")
+    want("its numbers are not evidence" in low and "two claims, not a check" in low,
+         "a reviewer's MEASUREMENTS are re-run before they are cited — a rung-2 reviewer "
+         "reported zero mismatches on a boundary that had hundreds, and what caught it was "
+         "the two reviewers DISAGREEING. Agreement on a number is two claims pointing the "
+         "same way, and it removes the one signal that would have forced a re-run")
     want("one refusal is not an absent rung" in low,
          "…and one refusal does not close rung 2 — MEASURED: a subagent was refused a named "
          "reviewer and a background one, then granted an unnamed synchronous one that found a "
@@ -650,6 +655,13 @@ def _mutations(md: str) -> list:
         # check reads the lowercased text, and the gate stayed green on a half-mutated
         # file: the self-test reported the CHECK as measuring nothing when the defect was
         # in the mutation. Mutate every instance of the property or you are testing one.
+        ("a reviewer's numbers go back to counting as evidence",
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    re.sub(r"[Ii]ts numbers are not evidence",
+                           "its numbers are evidence", md)}),
+        ("agreement between reviewers goes back to being a check",
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    re.sub(r"two claims, not a check", "a check", md)}),
         ("one refusal is allowed to close rung 2 again",
          lambda f: {**f, "ship-skill/SKILL.md":
                     re.sub(r"one refusal is not an absent rung",

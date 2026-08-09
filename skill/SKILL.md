@@ -407,6 +407,33 @@ the question at all. **A check whose only honest outcome is "absent, as far as I
 is still a check; treating that as unsatisfiable is how a real limit gets reported as a
 choice.**
 
+### ⚠ What a reviewer sends back is a CLAIM. Its numbers are not evidence.
+
+An independent reviewer is worth having because it is not you — which is exactly why its
+output has not been checked by you either. A finding is a lead you go and confirm. A
+**measurement** — "I swept the range, zero mismatches", "all 40 cases pass", "I ran it
+1,000 times" — is a claim about work you did not watch. **Re-run any measurement you
+intend to put in the seal, and cite the run you did.**
+
+MEASURED, one session: a rung-2 reviewer reported brute-forcing a numeric boundary with
+**zero** mismatches. The author's own sweep of a wider window found **hundreds**, the
+first at a value the reviewer's narrower window never reached. The reviewer was not lying
+and its method was sound; its window was too small, and "zero mismatches" reads identical
+either way.
+
+**And this is the sharp edge of MULTI: what caught it was the two reviewers DISAGREEING.**
+A different-family reviewer said the defect was real while the subagent said it was
+absent, and the contradiction is what forced a third measurement. **Had they agreed,
+nothing in the process would have re-run anything** — agreement would have felt like
+confirmation while being two unverified claims pointing the same way. Independent
+reviewers reduce correlated blind spots; they do not turn each other's arithmetic into
+evidence. When two of them agree on a number, you have two claims, not a check.
+
+*(Reproducing someone else's number also means reproducing their **units**. A count
+re-run here came back 710 against a reported 450 — and 450 was right, for distinct inputs
+rather than input pairs. Before calling a number wrong, check that you counted the same
+thing.)*
+
 **Rung 3 means a new conversation, not a new message.** A fresh message in this thread still
 has all of the building in its context and buys nothing. And MULTI happens *after* Steps 1-3
 are finished — you review an artifact, not a work in progress.
