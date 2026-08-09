@@ -324,6 +324,20 @@ when two checks on the same thing disagree, do not assume the failing one is wro
 **That contradiction is the signal** — usually one of them was written against a truth that
 has since changed, and the other has been quietly holding the error in place.
 
+⚠ **A RED is as forgeable as a green, and the usual forger is a stale artifact.** The
+sabotage sweep above — break the fix, watch the check fail, restore — grades whatever the
+runtime actually loaded, which is not always what you just wrote. On macOS, an edit of the
+**same length inside the same mtime second** can leave CPython serving the previous
+compile, and it caches to `~/Library/Caches/com.apple.python/<abs-path>.pyc`, which
+deleting `__pycache__` never touches. The sweep then reports on a file that no longer
+exists — in either direction.
+
+MEASURED, two independent runs in one session: one agent's sweep returned **2 of 9 results
+false**; the other caught it only because a red result was *arithmetically impossible*.
+**Run the sweep with `python3 -B`, or change the file's length, and treat an impossible
+result as an instrument fault before a subject fault** — the same move as distrusting a
+check that passes, pointed the other way.
+
 **+ EXCEPTION — no-drive-by applies at EVERY granularity, and a COMPELLED deletion is not one.** It reads as being about files
 and diffs; the failure that actually happens is smaller. You have legitimate cause to
 touch one sentence, and while rewriting it you quietly drop a clause nobody asked about.
@@ -833,6 +847,13 @@ branch is gone. Doing all three costs one short block and a sentence.
 2. **Write the updated `SCARS.md` and offer it as a file.** If you can write to the
    skill folder, do — and copy the old text to `SCARS.prev.md` first, so a wrong lesson
    is undoable. If you cannot, hand the updated file over.
+   ⚠ **"Cannot" includes "may not."** A permitted-files list from the person who asked
+   governs the skill folder exactly as it governs theirs; when one is in force, take the
+   hand-it-over path — step 1 has already preserved the scar, so refusing to write costs
+   nothing. MEASURED: of two fresh agents told to modify two named files and no others,
+   one wrote its scar into `SCARS.md` regardless and overwrote `SCARS.prev.md` on the
+   way. It was the only boundary either of them crossed all run, and it was the file that
+   records boundaries.
 
 3. **Say plainly that durability is unverified**, in one sentence, every time.
 

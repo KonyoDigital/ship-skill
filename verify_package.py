@@ -382,6 +382,16 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "the marker key COMPOSES its two signals instead of declaring a third tier with a "
          "single member — a category of one is more key than lock, and it invites tagging "
          "passages to fill it")
+    want("a red is as forgeable as a green" in low and "python3 -b" in low,
+         "the sabotage sweep is warned about FALSE REDS, not only false greens — a "
+         "same-length edit inside one mtime second leaves CPython serving the old compile "
+         "from a cache `rm __pycache__` never touches, and two independent runs hit it in "
+         "one session (2 of 9 results false in the first)")
+    want('"cannot" includes "may not."' in low,
+         "the write-the-scar step treats a PERMITTED-FILES list as binding on the skill "
+         "folder too — measured: of two agents scoped to two named files, one wrote its "
+         "scar into SCARS.md anyway and overwrote SCARS.prev.md, the only boundary either "
+         "crossed all run and the file that records boundaries")
     want("not every pin carries one" in low
          and "reasoning rather than evidence" in low,
          "the pins table says which of its rules carry a CASE and which do not — 'every "
@@ -748,6 +758,12 @@ def _mutations(md: str) -> list:
          lambda f: {**f, "ship-skill/SKILL.md":
                     re.sub(_flex("The two compose rather than forming a third tier"),
                            "Both together is a third signal", md)}),
+        ("the sweep stops being warned that a RED can be forged too",
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    re.sub(_flex("A RED is as forgeable as a green"), "Reds are reliable", md)}),
+        ("the skill folder stops being covered by a permitted-files list",
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    re.sub(_flex('"Cannot" includes "may not."'), "Write it anyway.", md)}),
         ("the pins stop admitting which of them carry a case",
          lambda f: {**f, "ship-skill/SKILL.md":
                     re.sub(_flex("Not every pin carries one"), "Every pin carries one", md)}),
