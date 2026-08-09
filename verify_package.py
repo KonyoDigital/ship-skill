@@ -387,8 +387,10 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "the forged-RED passage names the remedy that WORKS — ask the runtime for its "
          "cache path. Both obvious cures were measured failing: -B never stops a READ, and "
          "`rm -rf __pycache__` deletes nothing where sys.pycache_prefix is set, which is "
-         "the case on the Mac this was reproduced on, where it is the stock interpreter's "
-         "default rather than one machine's configuration")
+         "the case on the Mac this was reproduced on — and the passage states the REACH of "
+         "that measurement (one machine, one interpreter version) instead of generalising "
+         "it to every macOS user, which is the sample-size overreach this file has a rule "
+         "about, committed by the file about itself")
     want('"cannot" includes "may not."' in low,
          "the write-the-scar step treats a PERMITTED-FILES list as binding on the skill "
          "folder too — measured: of two agents scoped to two named files, one wrote its "
@@ -762,8 +764,9 @@ def _mutations(md: str) -> list:
                            "Both together is a third signal", md)}),
         ("the sweep stops being warned that a RED can be forged too",
          lambda f: {**f, "ship-skill/SKILL.md":
-                    re.sub(_flex("importlib.util.cache_from_source"), "os.remove", 
-                           re.sub(_flex("sys.pycache_prefix"), "the cache dir", md))}),
+                    re.sub(_flex("One machine, one interpreter version"),
+                           "Every macOS user gets this",
+                           re.sub(_flex("importlib.util.cache_from_source"), "os.remove", md))}),
         ("the skill folder stops being covered by a permitted-files list",
          lambda f: {**f, "ship-skill/SKILL.md":
                     re.sub(_flex('"Cannot" includes "may not."'), "Write it anyway.", md)}),

@@ -348,8 +348,9 @@ machines that disagreed, which is the point.**
   `PYTHONPYCACHEPREFIX` unset and nothing in the shell profile setting it:
   `sys.pycache_prefix` came back `~/Library/Caches/com.apple.python`, the cache sat at
   `<that prefix>/<absolute source path>.pyc`, and removing `__pycache__` changed **nothing**
-  — the stale value survived all three attempts. That is not one odd machine: it is the
-  default interpreter every macOS user gets.
+  — the stale value survived all three attempts. **One machine, one interpreter version**:
+  enough to prove deleting `__pycache__` can be a no-op, not enough to say how far the
+  default reaches. The remedy below never needed to know.
 
 **So ask the runtime where its cache is instead of assuming:**
 `importlib.util.cache_from_source(os.path.abspath(f))` names the exact file on every
