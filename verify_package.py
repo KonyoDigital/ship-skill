@@ -373,6 +373,10 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "the rung-2 carve-out and the say-it-in-the-seal instruction are separate "
          "PARAGRAPHS — a single newline between two rules renders as one block, which is "
          "how three earlier splices shipped past balanced-markup checks")
+    want("zero results is a claim about your working directory" in low,
+         "a zero-result search must state where it looked — 'no callers' from the wrong "
+         "directory is byte-identical to a true absence, and it nearly shipped as a "
+         "blast-radius line in a real review (48 matches on re-run with an absolute path)")
     want("the two checks are one procedure" in low,
          "…and the two halves are joined where a reader meets them — 'no tool exposed' "
          "and 'a tool that refused' are the same procedure at different branches, and a "
@@ -675,6 +679,10 @@ def _mutations(md: str) -> list:
         ("agreement between reviewers goes back to being a check",
          lambda f: {**f, "ship-skill/SKILL.md":
                     re.sub(r"two claims, not a check", "a check", md)}),
+        ("a zero-result search stops being a claim about the cwd",
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    re.sub(r"[Zz]ero results is a claim about your working directory",
+                           "zero results settles it", md)}),
         ("the carve-out fuses into the paragraph beneath it",
          lambda f: {**f, "ship-skill/SKILL.md":
                     md.replace("performed check.\n\nWhen MULTI", "performed check.\nWhen MULTI")}),

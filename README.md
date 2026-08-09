@@ -107,10 +107,10 @@ The seal has to say which. *"SOLO" is an honest answer; an unearned "MULTI" is n
 
 ## Verifying the package
 
-`verify_package.py` gates the download on **75 checks** — the shape Desktop rejects, the
+`verify_package.py` gates the download on **76 checks** — the shape Desktop rejects, the
 1024-char description limit, that the seal still demands the mode, the stop reason and the
 scar evidence, and that the downloadable `.skill` still matches the `skill/` folder it was
-built from. `--self-test` mutates the package and this README **51 ways** and proves the
+built from. `--self-test` mutates the package and this README **52 ways** and proves the
 gate goes red on every one, because a gate nobody has seen fail is not known to be
 measuring anything.
 

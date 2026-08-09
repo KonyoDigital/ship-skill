@@ -228,6 +228,20 @@ zero errors before you started.
 **Check the thing, not a proxy.** If the goal is "the link works", the proof is that the
 link resolves — not that the link text looks right.
 
+⚠ **A search that found nothing must state where it looked.** "No callers" and "no other
+instances" are among the strongest sentences you can put in a seal, and a command run in
+the wrong directory produces them exactly as readily as a true absence — same empty
+output, same confident wording. **Zero results is a claim about your working directory
+until it prints one.** The same anchor rule covers anything that opens a file: resolve
+from an absolute path, or from `__file__`, never from wherever the process happened to
+start.
+
+MEASURED: a review searched for callers, got zero matches, and nearly wrote it into a
+blast-radius section — the shell was in a sibling directory; re-run with an absolute path
+it returned **48**. In the same run its own new test suite opened its data file relative
+to the working directory and passed **twice** from the project folder while failing from
+`/tmp`, because "run it twice" was two runs of the same mistake.
+
 **Sweep the class.** Fixed a problem? Find the same shape everywhere and fix every
 instance, or list the ones you deliberately left and why. Fixing only the one in front of
 you is how the same mistake ships three times.
