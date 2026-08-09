@@ -326,17 +326,33 @@ has since changed, and the other has been quietly holding the error in place.
 
 ⚠ **A RED is as forgeable as a green, and the usual forger is a stale artifact.** The
 sabotage sweep above — break the fix, watch the check fail, restore — grades whatever the
-runtime actually loaded, which is not always what you just wrote. On macOS, an edit of the
-**same length inside the same mtime second** can leave CPython serving the previous
-compile, and it caches to `~/Library/Caches/com.apple.python/<abs-path>.pyc`, which
-deleting `__pycache__` never touches. The sweep then reports on a file that no longer
-exists — in either direction.
+runtime actually loaded, which is not always what you just wrote. An edit of the **same
+length inside the same mtime second** can leave CPython serving the previous compile, and
+the sweep then reports on a file that no longer exists, in either direction.
 
-MEASURED, two independent runs in one session: one agent's sweep returned **2 of 9 results
-false**; the other caught it only because a red result was *arithmetically impossible*.
-**Run the sweep with `python3 -B`, or change the file's length, and treat an impossible
-result as an instrument fault before a subject fault** — the same move as distrusting a
-check that passes, pointed the other way.
+MEASURED, two independent runs in one session: both sweeps returned **2 of 9 results
+false**; one caught it because a red was arithmetically impossible, the other because the
+result contradicted a byte-identical diff.
+
+⚠ **Both obvious remedies fail, and they fail differently — this was measured on two
+machines that disagreed, which is the point.**
+
+- **`python3 -B` does not rescue you from a cache that already exists.** It sets
+  *don't WRITE bytecode*; it never stops a *read*. Against a stale `.pyc` already on disk
+  it loads the old module and reports a clean, coherent, wrong sweep. It works only if it
+  covers the run from the **first** iteration with nothing cached earlier — verified in
+  both directions.
+- **`rm -rf __pycache__` is not portable, and on some machines deletes nothing.** CPython
+  honours `sys.pycache_prefix`; where it is set, `__pycache__` is never created. On one
+  Mac here, `sys.pycache_prefix` is `~/Library/Caches/com.apple.python`, the cache sat at
+  `<that prefix>/<absolute source path>.pyc`, and removing `__pycache__` changed **nothing**
+  — the stale value survived all three attempts.
+
+**So ask the runtime where its cache is instead of assuming:**
+`importlib.util.cache_from_source(os.path.abspath(f))` names the exact file on every
+platform. Deleting *that* path fixed it immediately where both other remedies had failed.
+**And treat an impossible result as an instrument fault before a subject fault** — the same
+move as distrusting a check that passes, pointed the other way.
 
 **+ EXCEPTION — no-drive-by applies at EVERY granularity, and a COMPELLED deletion is not one.** It reads as being about files
 and diffs; the failure that actually happens is smaller. You have legitimate cause to

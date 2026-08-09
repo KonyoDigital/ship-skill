@@ -382,11 +382,12 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "the marker key COMPOSES its two signals instead of declaring a third tier with a "
          "single member — a category of one is more key than lock, and it invites tagging "
          "passages to fill it")
-    want("a red is as forgeable as a green" in low and "python3 -b" in low,
-         "the sabotage sweep is warned about FALSE REDS, not only false greens — a "
-         "same-length edit inside one mtime second leaves CPython serving the old compile "
-         "from a cache `rm __pycache__` never touches, and two independent runs hit it in "
-         "one session (2 of 9 results false in the first)")
+    want("a red is as forgeable as a green" in low
+         and "cache_from_source" in low and "sys.pycache_prefix" in low,
+         "the forged-RED passage names the remedy that WORKS — ask the runtime for its "
+         "cache path. Both obvious cures were measured failing: -B never stops a READ, and "
+         "`rm -rf __pycache__` deletes nothing where sys.pycache_prefix is set, which is "
+         "the case on the Mac this was reproduced on")
     want('"cannot" includes "may not."' in low,
          "the write-the-scar step treats a PERMITTED-FILES list as binding on the skill "
          "folder too — measured: of two agents scoped to two named files, one wrote its "
@@ -760,7 +761,8 @@ def _mutations(md: str) -> list:
                            "Both together is a third signal", md)}),
         ("the sweep stops being warned that a RED can be forged too",
          lambda f: {**f, "ship-skill/SKILL.md":
-                    re.sub(_flex("A RED is as forgeable as a green"), "Reds are reliable", md)}),
+                    re.sub(_flex("importlib.util.cache_from_source"), "os.remove", 
+                           re.sub(_flex("sys.pycache_prefix"), "the cache dir", md))}),
         ("the skill folder stops being covered by a permitted-files list",
          lambda f: {**f, "ship-skill/SKILL.md":
                     re.sub(_flex('"Cannot" includes "may not."'), "Write it anyway.", md)}),
