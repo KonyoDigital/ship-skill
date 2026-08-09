@@ -107,14 +107,18 @@ The seal has to say which. *"SOLO" is an honest answer; an unearned "MULTI" is n
 
 ## Verifying the package
 
-`verify_package.py` gates the download on **65 checks** — the shape Desktop rejects, the
+`verify_package.py` gates the download on **67 checks** — the shape Desktop rejects, the
 1024-char description limit, that the seal still demands the mode, the stop reason and the
 scar evidence, and that the downloadable `.skill` still matches the `skill/` folder it was
-built from. `--self-test` mutates the package **39 ways and proves the gate goes red on
-every one**, because a gate nobody has seen fail is not known to be measuring anything.
+built from. `--self-test` mutates the package and this README **42 ways** and proves the
+gate goes red on every one, because a gate nobody has seen fail is not known to be
+measuring anything.
 
 It grades `skill/` — the source — and never the committed zip, because grading the built
-artifact is how a 108-line merge once passed unread.
+artifact is how a 108-line merge once passed unread. **Two of those checks grade this
+paragraph**: the counts above are compared against what the script actually runs, because
+they were written once when they were true and then sat unchanged while the gate more than
+doubled.
 
 ```bash
 python3 verify_package.py            # check the shipped package

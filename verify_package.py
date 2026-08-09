@@ -29,13 +29,14 @@ The general form: when a gate reads an artifact, something has to prove the arti
 is the thing you changed, or the gate is measuring the last person's work.
 """
 from __future__ import annotations
-import io, re, sys, zipfile
+import contextlib, io, re, sys, zipfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 LIMIT = 1024
 PKG = "ship-skill"
 ARTIFACTS = ("ship-skill.zip", "ship-skill.skill")
+RAN: list[str] = []   # labels printed by the last check() run — counted, not estimated
 
 
 def source_files() -> dict:
@@ -47,6 +48,7 @@ def source_files() -> dict:
 
 def check(zf: zipfile.ZipFile) -> list[str]:
     fails, names = [], zf.namelist()
+    RAN.clear()
     md = zf.read("ship-skill/SKILL.md").decode()
     # ⚠ WHITESPACE-NORMALISED COPY, for any check on a phrase longer than a word.
     # This file is hard-wrapped at ~88 columns, so a phrase can be split by a newline
@@ -68,6 +70,7 @@ def check(zf: zipfile.ZipFile) -> list[str]:
 
     def want(cond, label):
         print(("  ok   · " if cond else "  FAIL · ") + label)
+        RAN.append(label)
         if not cond:
             fails.append(label)
 
@@ -421,6 +424,68 @@ def stale_artifacts() -> list[str]:
     return drifted
 
 
+def _readme_mutations(real: str) -> list:
+    """Red proofs for the claims the README makes about this script.
+
+    Separate from `_mutations` because these break the README, not the package —
+    but they are red proofs like any other and are counted as such.
+    """
+    return [
+        ("README's check count drifts from the gate",
+         re.sub(r"(gates the download on \*\*)\d+", r"\g<1>27", real)),
+        ("README's mutation count drifts from the list",
+         re.sub(r"(mutates the package and this README \*\*)\d+", r"\g<1>16", real)),
+        ("the README stops stating the numbers in a readable form",
+         real.replace("gates the download on", "runs a pile of checks over")
+             .replace("mutates the package and this README", "breaks things")),
+    ]
+
+
+def total_mutations() -> int:
+    """Every red proof `--self-test` runs. Built, never called — only counted."""
+    return len(_mutations("")) + len(_readme_mutations(""))
+
+
+def readme_claims(readme: str, package_checks: int, mutations: int) -> list[str]:
+    """Grade the README's own numbers against what this script actually runs.
+
+    They were written once, in the first commit, when they were true — 26 checks
+    and 16 mutations. Sixteen commits then grew the gate to 65 and 39 and never
+    touched the sentence describing it. Every one of those commits was correct on
+    its own; the drift was cumulative, which is exactly the kind nobody notices.
+
+    Nothing was comparing them because this gate reads the PACKAGE, and the claim
+    lives on the front page — the one file a stranger reads before installing.
+
+    A missing match FAILS rather than passing quietly: a check keyed to a phrase
+    that has since been reworded matches nothing and passes having counted
+    nothing, which is a scar this repo has already paid for once.
+    """
+    flat = " ".join(readme.split())     # hard-wrapped at ~88 cols, same as SKILL.md
+    patterns = ((r"gates the download on \*\*(\d+) checks\*\*", "checks"),
+                (r"mutates the package and this README \*\*(\d+) ways",
+                 "self-test red proofs"))
+    # These assertions print like any other check, so they count toward the total a
+    # reader would arrive at by counting lines. len(patterns), never a literal 2.
+    expect = {"checks": package_checks + len(patterns),
+              "self-test red proofs": mutations}
+    out = []
+    for pattern, what in patterns:
+        m = re.search(pattern, flat)
+        if not m:
+            out.append(f"README no longer states its {what} where this gate can "
+                       f"read them — prose reworded past the pattern passes having "
+                       f"counted nothing")
+        elif int(m.group(1)) != expect[what]:
+            out.append(f"README says {m.group(1)} {what}; this script runs "
+                       f"{expect[what]}")
+        else:
+            print(f"  ok   · README's {what} count ({expect[what]}) is the number "
+                  f"this script actually runs — the first commit's 27/16 was true "
+                  f"then and nothing was re-measuring it")
+    return out
+
+
 def build() -> None:
     for name in ARTIFACTS:
         with zipfile.ZipFile(HERE / name, "w", zipfile.ZIP_DEFLATED) as z:
@@ -429,11 +494,15 @@ def build() -> None:
         print(f"  built {name}")
 
 
-def self_test() -> int:
-    files = source_files()
-    md = files["ship-skill/SKILL.md"].decode()
-    bad = 0
-    for label, mutate in [
+def _mutations(md: str) -> list:
+    """Every red proof this gate runs: a label, and a way to break the package.
+
+    A function rather than a literal buried inside `self_test` so the count is a
+    fact something else can read. The README states that count, and a number no
+    caller can recount is how "16 ways" stayed on the front page while this list
+    grew to 39.
+    """
+    return [
         ("description over the limit",
          lambda f: {**f, "ship-skill/SKILL.md": re.sub(
              r"^description:.*$", "description: " + "x" * 1100, md, flags=re.M)}),
@@ -534,7 +603,14 @@ def self_test() -> int:
                     f["ship-skill/SCARS.md"].decode().replace("FOUNDING RULES", "Rules").encode()}),
         ("the seal stops demanding scar evidence",
          lambda f: {**f, "ship-skill/SKILL.md": md.replace("including its EVIDENCE line", "")}),
-    ]:
+    ]
+
+
+def self_test() -> int:
+    files = source_files()
+    md = files["ship-skill/SKILL.md"].decode()
+    bad = 0
+    for label, mutate in _mutations(md):
         print(f"\n  RED PROOF — {label}")
         try:
             fails = check(_zip(mutate(files)))
@@ -542,6 +618,23 @@ def self_test() -> int:
             fails = [f"raised {type(e).__name__}"]
             print(f"  FAIL · raised {type(e).__name__}")
         if not fails:
+            print(f"  ✗✗ THE GATE STAYED GREEN on {label!r} — it is not measuring this")
+            bad += 1
+
+    # The README is not inside the package, so the loop above cannot reach the
+    # claims it makes about this script. Same discipline, done separately: break
+    # the claim, require a failure, and refuse a mutation that changed nothing.
+    with contextlib.redirect_stdout(io.StringIO()):
+        check(_zip(files))                       # silent clean run, for the real count
+    real = (HERE / "README.md").read_text()
+    clean, n_mut = len(RAN), total_mutations()
+    for label, text in _readme_mutations(real):
+        print(f"\n  RED PROOF — {label}")
+        if text == real:
+            print(f"  ✗✗ THE MUTATION WAS A NO-OP on {label!r} — a mutation that "
+                  f"changes nothing certifies nothing")
+            bad += 1
+        elif not readme_claims(text, clean, n_mut):
             print(f"  ✗✗ THE GATE STAYED GREEN on {label!r} — it is not measuring this")
             bad += 1
     return bad
@@ -566,6 +659,11 @@ if __name__ == "__main__":
         f.append(d)          # one entry per artifact, so the count matches the lines
         print(f"  FAIL · {d} no longer matches skill/ — the file a stranger "
               f"downloads is not the file that was just graded. Run --build.")
+    # The README describes this script; these two grade that description.
+    for d in readme_claims((HERE / "README.md").read_text(), len(RAN),
+                           total_mutations()):
+        f.append(d)
+        print(f"  FAIL · {d}")
     print()
     print("PACKAGE OK" if not f else f"{len(f)} FAILURE(S)")
     raise SystemExit(1 if f else 0)
