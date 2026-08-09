@@ -47,8 +47,11 @@ verdict is on disk. The skill makes the judgement better; the gate makes it chec
 ## The pins
 
 **These are the rules that did the work** — every one of them caught something in a real
-run, across repeated trials in more than one model family. The cases are recorded through
-the file; some sit beside the rule they produced and some in the section it governs.
+run, across repeated trials in more than one model family. Where a case is recorded it sits
+either beside the rule it produced or in the section that rule governs. **Not every pin
+carries one** — several state the mechanism a run taught without re-telling the run, and a
+pin with no case behind it is reasoning rather than evidence. Worth knowing which of the two
+you are reading.
 
 *(A running count of trials stood here. It was true when written and then understated its
 own evidence for eight versions — the stale-label defect this file has a rule about — so a

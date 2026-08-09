@@ -382,6 +382,11 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "the marker key COMPOSES its two signals instead of declaring a third tier with a "
          "single member — a category of one is more key than lock, and it invites tagging "
          "passages to fill it")
+    want("not every pin carries one" in low
+         and "reasoning rather than evidence" in low,
+         "the pins table says which of its rules carry a CASE and which do not — 'every "
+         "rule came from a real run' invites reading each line as evidence, and several "
+         "state a mechanism a run taught without re-telling the run")
     want("swapping a number for a claim does not make it true" in low,
          "…and replacing a stale COUNT with a CLAIM is audited like the count was — the "
          "first replacement here promised every pin named its case beside the rule, and "
@@ -743,6 +748,9 @@ def _mutations(md: str) -> list:
          lambda f: {**f, "ship-skill/SKILL.md":
                     re.sub(_flex("The two compose rather than forming a third tier"),
                            "Both together is a third signal", md)}),
+        ("the pins stop admitting which of them carry a case",
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    re.sub(_flex("Not every pin carries one"), "Every pin carries one", md)}),
         ("swapping a number for a claim becomes self-certifying",
          lambda f: {**f, "ship-skill/SKILL.md":
                     re.sub(_flex("Swapping a number for a claim does not make it true"),
