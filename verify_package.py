@@ -360,6 +360,11 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "rung 2's 'check whether you can' is satisfiable from inside a run — reporting "
          "what your toolset exposes IS the check, and a live reviewer that could only "
          "prove absence read the instruction as impossible and skipped it")
+    want("one refusal is not an absent rung" in low,
+         "…and one refusal does not close rung 2 — MEASURED: a subagent was refused a named "
+         "reviewer and a background one, then granted an unnamed synchronous one that found a "
+         "regression its author's suite and sabotage sweep had both passed. Stopping at the "
+         "first refusal reports an available rung as an absent one")
     want("only guards a run that continues" in low,
          "GUARD refuses 'a question I now always ask' from a run that ends — a subagent "
          "with no memory has no next run to ask it, so the strongest fallback in the "
@@ -623,6 +628,16 @@ def _mutations(md: str) -> list:
         ("SCARS.md loses the founding/learned split",
          lambda f: {**f, "ship-skill/SCARS.md":
                     f["ship-skill/SCARS.md"].decode().replace("FOUNDING RULES", "Rules").encode()}),
+        # ⚠ CASE-INSENSITIVE, and that is not cosmetic. The rule is stated TWICE — once
+        # sentence-initial in the ladder table ("One refusal…") and once mid-sentence in
+        # the paragraph below it. A case-sensitive replace killed only the second, the
+        # check reads the lowercased text, and the gate stayed green on a half-mutated
+        # file: the self-test reported the CHECK as measuring nothing when the defect was
+        # in the mutation. Mutate every instance of the property or you are testing one.
+        ("one refusal is allowed to close rung 2 again",
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    re.sub(r"one refusal is not an absent rung",
+                           "a refusal closes the rung", md, flags=re.I)}),
         ("absence stops counting as a performed check at rung 2",
          lambda f: {**f, "ship-skill/SKILL.md":
                     md.replace("is still a check", "is not a check")}),

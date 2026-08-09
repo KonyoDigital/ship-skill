@@ -370,15 +370,24 @@ never indicated it is the same false report as claiming a check you did not run.
 | Rung | What it removes |
 |---|---|
 | **1. A different model family** | Contamination, and blind spots that sit in different places. The strongest MULTI. Name the model. |
-| **2. A fresh subagent / agent task** | Most of the contamination, where you can spawn one — **look before claiming either way: a subagent normally cannot spawn a subagent, so this rung is usually closed to the very run that needs it. "No such tool is exposed to me" IS that check performed, not a failure to perform it.** Two caveats even when it works: *you* write the prompt, so contamination drops by discipline rather than by mechanism; and it may run a different, often smaller model, so name what it was. |
+| **2. A fresh subagent / agent task** | Most of the contamination, where you can spawn one — **look before claiming either way, and note that availability turns on the SHAPE of the spawn, not on what you are. One refusal is not an absent rung: try the narrowest form (unnamed, synchronous) before concluding. "No such tool is exposed to me" IS that check performed; "the first call was refused" is not.** Two caveats even when it works: *you* write the prompt, so contamination drops by discipline rather than by mechanism; and it may run a different, often smaller model, so name what it was. |
 | **3. A new conversation**, pasted by hand | The same independence as rung 2 and the same caveat — you still write what it sees — but by hand. The fallback wherever there are no subagents. |
 | **4. Same conversation** | Nothing. This is SOLO — call it SOLO. |
 | **— Unavailable** | MULTI was right and **the environment cannot provide it.** Not a rung: a stated fact. |
 
-⚠ **Rung 2 is not available to a subagent** — subagents cannot spawn subagents, and the
-same holds for many scheduled and embedded runs. When MULTI is indicated and nothing
-above rung 4 is reachable, **do not quietly declare SOLO and hope the recommendation
-gets read.** Say it in the seal:
+⚠ **Rung 2 is OFTEN closed to a subagent — but do not take that on trust, including from
+this file.** MEASURED, 2026-08-09, one run: a subagent asked for a *named* reviewer and was
+refused ("teammates cannot spawn teammates"); asked for a *background* one and was refused
+again ("use synchronous"); asked for an **unnamed, synchronous** one and **got it** — a full
+independent Opus review that found a regression the author's own suite and sabotage sweep had
+both passed. Three calls, two refusals, one rung. **Each refusal named the shape it would
+accept**, so the error messages were the check, and stopping at the first would have reported
+an available rung as an absent one — the same lie as an unearned MULTI, told backwards.
+
+So: **one refusal is not an absent rung.** Vary the shape before you conclude — unnamed
+before named, synchronous before background — and if it stays refused, say what you tried.
+When MULTI is indicated and nothing above rung 4 is genuinely reachable, **do not quietly
+declare SOLO and hope the recommendation gets read.** Say it in the seal:
 
 > *"MULTI indicated; unavailable in this environment (no subagent, no second
 > conversation). Reviewed SOLO. An independent look is still owed before this is relied
