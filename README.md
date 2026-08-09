@@ -97,7 +97,7 @@ in the same breath — you fix it by changing what the reviewer knows.
 | Rung | What it removes |
 |---|---|
 | **1.** A different model family | Contamination, *and* blind spots sit elsewhere. Strongest. |
-| **2.** A fresh subagent | Most contamination — but you write its prompt, so the reduction is by discipline, not mechanism. |
+| **2.** A fresh subagent | Most contamination — but you write its prompt, so the reduction is by discipline, not mechanism. Check whether you can spawn one; a subagent usually cannot, and "no such tool is exposed to me" is that check answered, not dodged. |
 | **3.** A new conversation, pasted by hand | Same independence, more effort. The chat-only fallback. |
 | **4.** Same conversation | Nothing. **This is SOLO — call it SOLO.** |
 
@@ -107,10 +107,10 @@ The seal has to say which. *"SOLO" is an honest answer; an unearned "MULTI" is n
 
 ## Verifying the package
 
-`verify_package.py` gates the download on **67 checks** — the shape Desktop rejects, the
+`verify_package.py` gates the download on **70 checks** — the shape Desktop rejects, the
 1024-char description limit, that the seal still demands the mode, the stop reason and the
 scar evidence, and that the downloadable `.skill` still matches the `skill/` folder it was
-built from. `--self-test` mutates the package and this README **42 ways** and proves the
+built from. `--self-test` mutates the package and this README **45 ways** and proves the
 gate goes red on every one, because a gate nobody has seen fail is not known to be
 measuring anything.
 

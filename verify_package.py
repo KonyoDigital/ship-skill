@@ -356,6 +356,18 @@ def check(zf: zipfile.ZipFile) -> list[str]:
     want("never that it was saved" in flat,
          "the seal says scar durability is UNVERIFIED and never claims it was saved — "
          "reading a file back proves the write, never that the workspace survives")
+    want("no task/agent tool in this toolset" in low and "is still a check" in low,
+         "rung 2's 'check whether you can' is satisfiable from inside a run — reporting "
+         "what your toolset exposes IS the check, and a live reviewer that could only "
+         "prove absence read the instruction as impossible and skipped it")
+    want("only guards a run that continues" in low,
+         "GUARD refuses 'a question I now always ask' from a run that ends — a subagent "
+         "with no memory has no next run to ask it, so the strongest fallback in the "
+         "list was hollow for exactly the reviewer most likely to be using it")
+    want("three-second look" in low,
+         "the Step 0 carve-check states its cost on an EMPTY file — an unbounded 'check "
+         "its shape' at the top of a skill whose SCARS.md says '(none yet)' two lines "
+         "down reads as ceremony, and ceremony at Step 0 is what gets skipped")
 
     # STRUCTURAL, so it catches the CLASS. A sentence promising N things followed by a
     # different number of things is a defect no wording check finds: "the last two make
@@ -611,6 +623,16 @@ def _mutations(md: str) -> list:
         ("SCARS.md loses the founding/learned split",
          lambda f: {**f, "ship-skill/SCARS.md":
                     f["ship-skill/SCARS.md"].decode().replace("FOUNDING RULES", "Rules").encode()}),
+        ("absence stops counting as a performed check at rung 2",
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    md.replace("is still a check", "is not a check")}),
+        ("a question guards a run that has already ended",
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    md.replace("only guards a run that continues",
+                               "guards every run that follows")}),
+        ("the Step 0 carve-check stops bounding its own cost",
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    md.replace("three-second look", "careful audit")}),
         # ⚠ WAS A LITERAL, AND A REWORD TURNED IT INTO A NO-OP. The phrase is in a
         # hard-wrapped file; a line break landing between "including its" and
         # "EVIDENCE line" left this mutation changing nothing, and --self-test

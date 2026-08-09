@@ -18,7 +18,8 @@ back-pass → one verdict → record the scar.
 written by
 experience rather than by someone guessing in advance what would go wrong.
 
-**And while you are in there, check its shape.** If three or more entries have
+**And while you are in there, check its shape** — on an empty or short file that is a
+three-second look at the count, so take it and move on. If three or more entries have
 landed in the same territory — one tool, one surface, one class of mistake — that
 territory has earned a skill of its own; carve it out and delete those entries from
 `SCARS.md`. See **[Carving a new skill out of scars](#carving-a-new-skill-out-of-scars)**
@@ -369,7 +370,7 @@ never indicated it is the same false report as claiming a check you did not run.
 | Rung | What it removes |
 |---|---|
 | **1. A different model family** | Contamination, and blind spots that sit in different places. The strongest MULTI. Name the model. |
-| **2. A fresh subagent / agent task** | Most of the contamination, where you can spawn one — **check whether you can, do not assume you can: a subagent normally cannot spawn a subagent, so this rung is usually closed to the very run that needs it.** Two caveats even when it works: *you* write the prompt, so contamination drops by discipline rather than by mechanism; and it may run a different, often smaller model, so name what it was. |
+| **2. A fresh subagent / agent task** | Most of the contamination, where you can spawn one — **look before claiming either way: a subagent normally cannot spawn a subagent, so this rung is usually closed to the very run that needs it. "No such tool is exposed to me" IS that check performed, not a failure to perform it.** Two caveats even when it works: *you* write the prompt, so contamination drops by discipline rather than by mechanism; and it may run a different, often smaller model, so name what it was. |
 | **3. A new conversation**, pasted by hand | The same independence as rung 2 and the same caveat — you still write what it sees — but by hand. The fallback wherever there are no subagents. |
 | **4. Same conversation** | Nothing. This is SOLO — call it SOLO. |
 | **— Unavailable** | MULTI was right and **the environment cannot provide it.** Not a rung: a stated fact. |
@@ -385,6 +386,17 @@ gets read.** Say it in the seal:
 
 "SOLO because I chose it" and "SOLO because nothing else was reachable" are different
 claims about how much this was checked.
+
+⚠ **And "check whether you can" is satisfiable — it asks what you can see, not what you
+can prove.** From inside a run you cannot establish that a capability is absent from the
+world; you can only report what is exposed to you, and that is the entire ask. *"No
+task/agent tool in this toolset"* is a performed check and an honest answer. Attempting a
+spawn you can already see you do not have is theatre, and reporting it as a failed attempt
+is worse. What misses the bar is the unexamined answer in either direction — a confident
+`Unavailable` from someone who never looked at their own tools, or a SOLO that never asked
+the question at all. **A check whose only honest outcome is "absent, as far as I can see"
+is still a check; treating that as unsatisfiable is how a real limit gets reported as a
+choice.**
 
 **Rung 3 means a new conversation, not a new message.** A fresh message in this thread still
 has all of the building in its context and buys nothing. And MULTI happens *after* Steps 1-3
@@ -592,6 +604,14 @@ diary. The last three are what make it a defence, and they are the three people 
   `GUARD: NONE` **honestly**. An honest
   NONE is a hazard you know about; an invented guard reads as protected and is worse than
   nothing.
+  ⚠ **But a question only guards a run that continues.** If this run ends when you
+  answer — a subagent, a scheduled job, a session with no memory — then "a question I
+  now always ask" guards nothing, because there is no next run of you to ask it. Writing
+  it there is the same overclaim as an invented test. **In that case the honest GUARD is
+  `NONE`, followed by the one thing you can actually do: name the durable place the rule
+  belongs and who can put it there.** The scar block you print IS that handoff — the
+  guard exists when someone pastes it, not when you write it, which is why this skill
+  never claims a scar was saved.
 - **EVIDENCE names what in *this run* proved it** — what happened, not why it sounds
   sensible. This is the difference between a rule and a superstition. Without it, the
   workflow fills with confident restrictions nobody can trace, refusing things for reasons
