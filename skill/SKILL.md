@@ -393,6 +393,7 @@ before named, synchronous before background — and if it stays refused, say wha
 you vary the shape until it is** (the paragraph above). Reading only the first half
 licenses "I looked, it refused, unavailable" — which is the reported-absent-rung failure
 wearing the language of a performed check.
+
 When MULTI is indicated and nothing above rung 4 is genuinely reachable, **do not quietly
 declare SOLO and hope the recommendation gets read.** Say it in the seal:
 

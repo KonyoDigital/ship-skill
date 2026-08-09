@@ -365,6 +365,14 @@ def check(zf: zipfile.ZipFile) -> list[str]:
          "reported zero mismatches on a boundary that had hundreds, and what caught it was "
          "the two reviewers DISAGREEING. Agreement on a number is two claims pointing the "
          "same way, and it removes the one signal that would have forced a re-run")
+    # STRUCTURAL, and it caught nothing until a human read the rendered page: two rules
+    # separated by a newline but no BLANK line are one paragraph in markdown. The bold
+    # markers balance, the prose is correct, and the page still fuses a carve-out into the
+    # instruction beneath it — the fourth splice in this file's history.
+    want(re.search(r"performed check\.\n\nWhen MULTI is indicated", md) is not None,
+         "the rung-2 carve-out and the say-it-in-the-seal instruction are separate "
+         "PARAGRAPHS — a single newline between two rules renders as one block, which is "
+         "how three earlier splices shipped past balanced-markup checks")
     want("the two checks are one procedure" in low,
          "…and the two halves are joined where a reader meets them — 'no tool exposed' "
          "and 'a tool that refused' are the same procedure at different branches, and a "
@@ -667,6 +675,9 @@ def _mutations(md: str) -> list:
         ("agreement between reviewers goes back to being a check",
          lambda f: {**f, "ship-skill/SKILL.md":
                     re.sub(r"two claims, not a check", "a check", md)}),
+        ("the carve-out fuses into the paragraph beneath it",
+         lambda f: {**f, "ship-skill/SKILL.md":
+                    md.replace("performed check.\n\nWhen MULTI", "performed check.\nWhen MULTI")}),
         ("the two rung-2 checks drift back into two unrelated rules",
          lambda f: {**f, "ship-skill/SKILL.md":
                     re.sub(r"[Tt]he two checks are one procedure",
